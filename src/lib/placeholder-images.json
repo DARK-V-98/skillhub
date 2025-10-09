@@ -1,3 +1,64 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A vibrant and modern learning environment with diverse students collaborating.",
+      "imageUrl": "https://picsum.photos/seed/skillhub-hero/1920/1080",
+      "imageHint": "education collaboration"
+    },
+    {
+      "id": "course-web-dev",
+      "description": "A computer screen showing lines of code for a web development project.",
+      "imageUrl": "https://picsum.photos/seed/web-dev/600/400",
+      "imageHint": "coding programming"
+    },
+    {
+      "id": "course-react-adv",
+      "description": "A diagram of a React component tree, illustrating advanced concepts.",
+      "imageUrl": "https://picsum.photos/seed/react-adv/600/400",
+      "imageHint": "react javascript"
+    },
+    {
+      "id": "course-ui-ux",
+      "description": "A designer's desk with wireframes and color palettes for a mobile app.",
+      "imageUrl": "https://picsum.photos/seed/ui-ux/600/400",
+      "imageHint": "design wireframe"
+    },
+    {
+      "id": "course-data-science",
+      "description": "A complex graph showing data relationships and analytics.",
+      "imageUrl": "https://picsum.photos/seed/data-science/600/400",
+      "imageHint": "data charts"
+    },
+    {
+      "id": "course-digital-marketing",
+      "description": "A dashboard showing social media engagement and marketing campaign results.",
+      "imageUrl": "https://picsum.photos/seed/digital-marketing/600/400",
+      "imageHint": "marketing analytics"
+    },
+    {
+      "id": "avatar-1",
+      "description": "Profile picture of instructor Jane Doe.",
+      "imageUrl": "https://picsum.photos/seed/avatar1/100/100",
+      "imageHint": "woman portrait"
+    },
+    {
+      "id": "avatar-2",
+      "description": "Profile picture of instructor John Smith.",
+      "imageUrl": "https://picsum.photos/seed/avatar2/100/100",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "avatar-3",
+      "description": "Profile picture of instructor Emily White.",
+      "imageUrl": "https://picsum.photos/seed/avatar3/100/100",
+      "imageHint": "woman smile"
+    },
+    {
+      "id": "avatar-4",
+      "description": "Profile picture of instructor Michael Brown.",
+      "imageUrl": "https://picsum.photos/seed/avatar4/100/100",
+      "imageHint": "man glasses"
+    }
+  ]
 }
