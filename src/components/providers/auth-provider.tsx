@@ -11,13 +11,16 @@ interface AuthContextType {
   loading: boolean;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType>({
+    user: null,
+    loading: true,
+});
 
-interface FirebaseProviderProps {
+interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 

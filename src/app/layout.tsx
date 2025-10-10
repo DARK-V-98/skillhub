@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { FirebaseProvider } from "@/components/providers/firebase-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 
 export const metadata: Metadata = {
@@ -19,13 +19,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <FirebaseProvider>
+        <AuthProvider>
           <TooltipProvider>
             {children}
             <Toaster />
             <SonnerToaster />
           </TooltipProvider>
-        </FirebaseProvider>
+        </AuthProvider>
       </body>
     </html>
   );
