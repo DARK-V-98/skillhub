@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
@@ -96,7 +97,7 @@ const Signup = () => {
     <div className="min-h-screen flex">
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-primary items-center justify-center p-12">
         <div className="text-center text-primary-foreground space-y-6 max-w-md">
-          <GraduationCap className="h-24 w-24 mx-auto" />
+          <Image src="/logo.png" alt="SkillHub Logo" width={96} height={96} className="mx-auto" />
           <h1 className="text-4xl font-bold">Join SkillHub Today!</h1>
           <p className="text-lg opacity-90">
             Start your learning journey or share your expertise with students worldwide. Choose your path and get started in minutes.
@@ -107,7 +108,7 @@ const Signup = () => {
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
             <div className="flex items-center gap-2 justify-center lg:hidden mb-4">
-              <GraduationCap className="h-8 w-8 text-primary" />
+              <Image src="/logo.png" alt="SkillHub Logo" width={32} height={32} className="h-8 w-8" />
               <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
             </div>
             <CardTitle className="text-2xl text-center">Create Your Account</CardTitle>

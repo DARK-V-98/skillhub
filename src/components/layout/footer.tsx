@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { GraduationCap, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import Image from 'next/image';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -12,7 +13,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <GraduationCap className="h-6 w-6 text-primary" aria-hidden="true" />
+              <Image src="/logo.png" alt="SkillHub Logo" width={24} height={24} className="h-6 w-6" />
               <span className="bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
             </Link>
             <p className="text-sm text-muted-foreground">
