@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <Image src="/logo.png" alt="SkillHub Logo" width={60} height={60} className="h-auto" />
+              <Image src="/logo.png" alt="SkillHub Logo" width={40} height={40} className="h-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
               Empowering learners and educators worldwide with accessible, quality education.
