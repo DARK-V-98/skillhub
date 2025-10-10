@@ -20,7 +20,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop",
       teacher: "Sarah Johnson",
       rating: 4.8,
-      price: "$49.99",
+      price: "LKR 49.99",
       category: "Development",
       studentsCount: 12500,
     },
@@ -29,7 +29,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
       teacher: "Michael Chen",
       rating: 4.9,
-      price: "$39.99",
+      price: "LKR 39.99",
       category: "Marketing",
       studentsCount: 8900,
     },
@@ -38,7 +38,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop",
       teacher: "Emma Wilson",
       rating: 4.7,
-      price: "$44.99",
+      price: "LKR 44.99",
       category: "Design",
       studentsCount: 6700,
     },
@@ -47,7 +47,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
       teacher: "David Park",
       rating: 4.9,
-      price: "$54.99",
+      price: "LKR 54.99",
       category: "Data Science",
       studentsCount: 15200,
     },
@@ -56,7 +56,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop",
       teacher: "Lisa Anderson",
       rating: 4.6,
-      price: "$59.99",
+      price: "LKR 59.99",
       category: "Development",
       studentsCount: 5400,
     },
@@ -65,7 +65,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=300&fit=crop",
       teacher: "Tom Martinez",
       rating: 4.8,
-      price: "$42.99",
+      price: "LKR 42.99",
       category: "Design",
       studentsCount: 7800,
     },
@@ -74,7 +74,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=400&h=300&fit=crop",
       teacher: "Rachel Green",
       rating: 4.7,
-      price: "$36.99",
+      price: "LKR 36.99",
       category: "Marketing",
       studentsCount: 9200,
     },
@@ -83,7 +83,7 @@ const Courses = () => {
       image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=300&fit=crop",
       teacher: "Dr. James Wilson",
       rating: 4.9,
-      price: "$64.99",
+      price: "LKR 64.99",
       category: "Data Science",
       studentsCount: 11300,
     },
@@ -138,9 +138,9 @@ const Courses = () => {
                   <SelectContent>
                     <SelectItem value="all">All Prices</SelectItem>
                     <SelectItem value="free">Free</SelectItem>
-                    <SelectItem value="under-50">Under $50</SelectItem>
-                    <SelectItem value="50-100">$50 - $100</SelectItem>
-                    <SelectItem value="over-100">Over $100</SelectItem>
+                    <SelectItem value="under-50">Under LKR 50</SelectItem>
+                    <SelectItem value="50-100">LKR 50 - LKR 100</SelectItem>
+                    <SelectItem value="over-100">Over LKR 100</SelectItem>
                   </SelectContent>
                 </Select>
 
