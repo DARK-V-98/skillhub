@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/sheet"
 
 const navLinks = [
-  { href: "/", label: "Home" },
   { href: "/courses", label: "Courses" },
   { href: "/live", label: "Live" },
   { href: "/community", label: "Community" },
@@ -26,7 +25,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 max-w-screen-2xl items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <GraduationCap className="h-6 w-6 text-primary" />
           <span className="font-bold text-lg sm:inline-block">
@@ -83,7 +82,8 @@ export default function Header() {
                         </Button>
                     </div>
                     <nav className="flex flex-col p-4 space-y-2">
-                    {navLinks.map((link) => (
+                      <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium p-2 rounded-md hover:bg-muted">Home</Link>
+                      {navLinks.map((link) => (
                         <Link
                         key={link.href}
                         href={link.href}
@@ -92,7 +92,7 @@ export default function Header() {
                         >
                         {link.label}
                         </Link>
-                    ))}
+                      ))}
                     </nav>
                     <div className="mt-auto p-4 border-t">
                         {loading ? (
