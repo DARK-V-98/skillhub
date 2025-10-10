@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
-import { Menu, X, GraduationCap } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import UserNav from "../auth/user-nav";
 import { useAuth } from "@/hooks/use-auth";
@@ -28,8 +28,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
-          <Image src="/logo.png" alt="SkillHub Logo" width={32} height={32} className="h-8 w-8" />
-          <span className="bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
+          <Image src="/logo.png" alt="SkillHub Logo" width={120} height={30} className="h-8 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}

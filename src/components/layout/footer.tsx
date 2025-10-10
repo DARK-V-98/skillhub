@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { GraduationCap, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 import Image from 'next/image';
 
 const Footer = () => {
@@ -13,8 +13,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <Image src="/logo.png" alt="SkillHub Logo" width={24} height={24} className="h-6 w-6" />
-              <span className="bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
+              <Image src="/logo.png" alt="SkillHub Logo" width={140} height={35} className="h-10 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
               Empowering learners and educators worldwide with accessible, quality education.
