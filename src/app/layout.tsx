@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { FirebaseProvider } from "@/components/providers/firebase-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { Sonner as SonnerToaster } from "sonner";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 
 

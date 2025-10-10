@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Type, Eye, Captions, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
