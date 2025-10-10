@@ -14,7 +14,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <Image src="/logo.png" alt="SkillHub Logo" width={240} height={60} className="h-20 w-auto" />
+              <Image src="/logo.png" alt="SkillHub Logo" width={240} height={60} className="h-auto" style={{width: '240px', height: 'auto'}} />
             </Link>
             <p className="text-sm text-muted-foreground">
               Empowering learners and educators worldwide with accessible, quality education.
@@ -68,6 +68,9 @@ const Footer = () => {
         <div className="mt-8 pt-8 border-t text-center">
           <p className="text-sm text-muted-foreground">
             © {currentYear} SkillHub. All rights reserved.
+          </p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Website developed by <a href="https://www.esystemlk.xyz" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">esystemlk</a>
           </p>
         </div>
       </div>
