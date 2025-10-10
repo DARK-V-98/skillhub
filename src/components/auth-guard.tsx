@@ -17,12 +17,14 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
   if (loading || !user) {
     return (
-      <div className="w-full h-screen p-8">
-        <Skeleton className="h-16 w-full mb-8" />
-        <div className="space-y-4">
-          <Skeleton className="h-32 w-full" />
-          <Skeleton className="h-32 w-full" />
-          <Skeleton className="h-32 w-full" />
+      <div className="container py-12">
+        <div className="w-full h-screen p-8">
+          <Skeleton className="h-16 w-1/3 mb-8" />
+          <div className="space-y-4">
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+          </div>
         </div>
       </div>
     );

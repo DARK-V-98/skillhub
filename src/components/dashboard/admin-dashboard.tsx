@@ -102,10 +102,10 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Course Management</CardTitle>
-                <CardContent className="pt-4">
+              </CardHeader>
+               <CardContent>
                   <p>Course management functionality will be implemented here.</p>
                 </CardContent>
-              </CardHeader>
             </Card>
           </TabsContent>
         </Tabs>

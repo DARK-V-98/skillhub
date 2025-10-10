@@ -9,9 +9,9 @@ interface SponsorDashboardProps {
 }
 
 const sponsoredStudents = [
-  { id: 1, name: "Alice Johnson", course: "Advanced React Patterns", progress: 85, avatar: "https://picsum.photos/seed/s-user1/40/40" },
-  { id: 2, name: "Bob Williams", course: "UI/UX Design Principles", progress: 60, avatar: "https://picsum.photos/seed/s-user2/40/40" },
-  { id: 3, name: "Charlie Brown", course: "Data Science with Python", progress: 45, avatar: "https://picsum.photos/seed/s-user3/40/40" },
+  { id: 1, name: "Alice Johnson", course: "Advanced React Patterns", progress: 85, avatar: "https://i.pravatar.cc/40?u=alice" },
+  { id: 2, name: "Bob Williams", course: "UI/UX Design Principles", progress: 60, avatar: "https://i.pravatar.cc/40?u=bob" },
+  { id: 3, name: "Charlie Brown", course: "Data Science with Python", progress: 45, avatar: "https://i.pravatar.cc/40?u=charlie" },
 ];
 
 export default function SponsorDashboard({ user }: SponsorDashboardProps) {
@@ -53,7 +53,7 @@ export default function SponsorDashboard({ user }: SponsorDashboardProps) {
       </section>
 
       <section>
-        <h2 className="text-2xl font-bold font-headline mb-4">Sponsored Student Progress</h2>
+        <h2 className="text-2xl font-bold mb-4">Sponsored Student Progress</h2>
         <Card>
           <Table>
             <TableHeader>
@@ -69,7 +69,7 @@ export default function SponsorDashboard({ user }: SponsorDashboardProps) {
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage src={student.avatar} />
+                        <AvatarImage src={student.avatar} alt={student.name} />
                         <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
                       </Avatar>
                       {student.name}

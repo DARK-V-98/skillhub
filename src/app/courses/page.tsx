@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import CourseCard from "@/components/courses/course-card";
 import { placeholderCourses } from "@/lib/placeholder-data";
 
-const CoursesPage = () => {
+export default function CoursesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState("all");
   const [priceRange, setPriceRange] = useState("all");
@@ -18,17 +18,16 @@ const CoursesPage = () => {
   return (
       <div className="container py-12">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-4">Explore Courses</h1>
-          <p className="text-muted-foreground text-lg">
-            Discover your next learning adventure from our extensive catalog
+          <h1 className="text-4xl font-bold tracking-tight">Explore Courses</h1>
+          <p className="mt-2 text-lg text-muted-foreground">
+            Discover your next learning adventure from our extensive catalog.
           </p>
         </div>
 
-        {/* Search and Filters */}
-        <div className="bg-card p-6 rounded-lg shadow-sm mb-8 border">
+        <div className="mb-8 rounded-lg border bg-card p-6 shadow-sm">
           <div className="flex flex-col gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search for courses..."
@@ -39,7 +38,7 @@ const CoursesPage = () => {
               />
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Select value={category} onValueChange={setCategory}>
                 <SelectTrigger className="w-full sm:w-[200px]" aria-label="Filter by category">
                   <SelectValue placeholder="Category" />
@@ -79,44 +78,37 @@ const CoursesPage = () => {
               </Select>
 
               <Button variant="outline" className="w-full sm:w-auto">
-                <SlidersHorizontal className="h-4 w-4 mr-2" />
+                <SlidersHorizontal className="mr-2 h-4 w-4" />
                 More Filters
               </Button>
             </div>
           </div>
         </div>
 
-        {/* Course Results */}
         <div className="mb-6">
           <p className="text-muted-foreground">
             Showing <span className="font-semibold text-foreground">{courses.length}</span> courses
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {courses.map((course) => (
               <CourseCard key={course.id} course={course} />
           ))}
         </div>
 
-        {/* Pagination */}
-        <div className="flex justify-center gap-2">
-          <Button variant="outline" disabled>Previous</Button>
-          <Button variant="outline" className="bg-primary text-primary-foreground">1</Button>
-          <Button variant="outline">2</Button>
-          <Button variant="outline">3</Button>
-          <Button variant="outline">Next</Button>
-        </div>
+        {courses.length > 8 && (
+            <div className="mt-12 flex justify-center">
+                <Button variant="outline">Load More</Button>
+            </div>
+        )}
 
-        {/* Empty State (hidden when courses exist) */}
         {courses.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-2xl font-semibold mb-2">No courses found</p>
-            <p className="text-muted-foreground">Try adjusting your filters or search query</p>
+          <div className="py-20 text-center">
+            <h2 className="text-2xl font-semibold">No courses found</h2>
+            <p className="mt-2 text-muted-foreground">Try adjusting your filters or search query.</p>
           </div>
         )}
       </div>
   );
 };
-
-export default CoursesPage;

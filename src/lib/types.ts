@@ -1,6 +1,6 @@
 import type { User as FirebaseUser } from "firebase/auth";
 
-export type Role = "student" | "teacher" | "sponsor" | "admin" | "developer";
+export type Role = "student" | "teacher" | "sponsor" | "admin";
 
 export interface UserProfile {
   uid: string;
@@ -15,13 +15,15 @@ export type AppUser = FirebaseUser & UserProfile;
 export interface Course {
   id: string;
   title: string;
+  category: string;
   description: string;
   instructor: {
     name: string;
     avatarUrl: string;
   };
-  category: string;
   duration: string;
+  price: number;
+  rating: number;
   imageUrl: string;
   imageHint: string;
   studentsEnrolled: number;

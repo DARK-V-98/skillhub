@@ -17,7 +17,6 @@ interface EnrolledCourse extends Course {
   progress: number;
 }
 
-// Mock data for enrolled courses
 const enrolledCourses: EnrolledCourse[] = [
   { ...placeholderCourses[0], progress: 75 },
   { ...placeholderCourses[2], progress: 30 },

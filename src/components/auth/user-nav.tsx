@@ -39,7 +39,7 @@ export default function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-9 w-9">
-            <AvatarImage src={user.avatarUrl || ""} alt={user.name || ""} />
+            <AvatarImage src={user.avatarUrl || `https://i.pravatar.cc/40?u=${user.uid}`} alt={user.name || ""} />
             <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
           </Avatar>
         </Button>

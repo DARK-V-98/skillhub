@@ -4,7 +4,7 @@ import React, { createContext, useEffect, useState, ReactNode } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
-import type { AppUser, UserProfile, Role } from "@/lib/types";
+import type { AppUser, UserProfile } from "@/lib/types";
 
 interface AuthContextType {
   user: AppUser | null;
@@ -34,13 +34,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const userProfile = userSnap.data() as UserProfile;
           setUser({ ...firebaseUser, ...userProfile });
         } else {
-          // Create a new user profile if it doesn't exist, default role to 'student'
+          // This case is handled more explicitly on the signup form.
+          // However, for social logins, we create a default student profile.
+          console.log("Creating new user profile for social login.");
           const newUserProfile: UserProfile = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
             name: firebaseUser.displayName,
             avatarUrl: firebaseUser.photoURL,
-            role: "student",
+            role: "student", // Default role
           };
           await setDoc(userRef, newUserProfile);
           setUser({ ...firebaseUser, ...newUserProfile });

@@ -45,25 +45,25 @@
     {
       "id": "avatar-1",
       "description": "Profile picture of instructor Jane Doe.",
-      "imageUrl": "https://picsum.photos/seed/avatar1/100/100",
+      "imageUrl": "https://i.pravatar.cc/100?u=jane_doe",
       "imageHint": "woman portrait"
     },
     {
       "id": "avatar-2",
       "description": "Profile picture of instructor John Smith.",
-      "imageUrl": "https://picsum.photos/seed/avatar2/100/100",
+      "imageUrl": "https://i.pravatar.cc/100?u=john_smith",
       "imageHint": "man portrait"
     },
     {
       "id": "avatar-3",
       "description": "Profile picture of instructor Emily White.",
-      "imageUrl": "https://picsum.photos/seed/avatar3/100/100",
+      "imageUrl": "https://i.pravatar.cc/100?u=emily_white",
       "imageHint": "woman smile"
     },
     {
       "id": "avatar-4",
       "description": "Profile picture of instructor Michael Brown.",
-      "imageUrl": "https://picsum.photos/seed/avatar4/100/100",
+      "imageUrl": "https://i.pravatar.cc/100?u=michael_brown",
       "imageHint": "man glasses"
     }
   ]
