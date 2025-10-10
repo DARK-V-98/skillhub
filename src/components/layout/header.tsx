@@ -1,119 +1,114 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { GraduationCap, Menu, X } from "lucide-react";
-import UserNav from "@/components/auth/user-nav";
-import { useAuth } from "@/hooks/use-auth";
 import { useState } from "react";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import Link from "next/link";
+import { usePathname } from 'next/navigation'
+import { Menu, X, GraduationCap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import UserNav from "../auth/user-nav";
+import { useAuth } from "@/hooks/use-auth";
 
-const navLinks = [
-  { href: "/courses", label: "Courses" },
-  { href: "/live", label: "Live" },
-  { href: "/community", label: "Community" },
-  { href: "/about", label: "About" },
-];
+const Header = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const { user } = useAuth();
 
-export default function Header() {
-  const { user, loading } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/courses", label: "Courses" },
+    { href: "/live", label: "Live" },
+    { href: "/community", label: "Community" },
+    { href: "/about", label: "About" },
+  ];
+
+  const isActive = (path: string) => pathname === path;
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <GraduationCap className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg sm:inline-block">
-            SkillHub
-          </span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
+          <GraduationCap className="h-8 w-8 text-primary" aria-hidden="true" />
+          <span className="bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
         </Link>
-        <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                isActive(link.href) ? "text-primary" : "text-muted-foreground"
+              }`}
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex flex-1 items-center justify-end space-x-4">
-           <nav className="flex items-center space-x-2">
-            {loading ? (
-              <div className="h-8 w-20 animate-pulse rounded-md bg-muted" />
-            ) : user ? (
-              <UserNav />
-            ) : (
-              <div className="hidden md:flex items-center space-x-2">
-                <Button variant="ghost" asChild>
-                  <Link href="/login">Login</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/signup">Sign Up</Link>
-                </Button>
-              </div>
-            )}
-          </nav>
-          <div className="md:hidden">
-             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Open menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left">
-                <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between p-4 border-b">
-                        <Link href="/" className="flex items-center space-x-2" onClick={() => setIsMobileMenuOpen(false)}>
-                            <GraduationCap className="h-6 w-6 text-primary" />
-                            <span className="font-bold text-lg">SkillHub</span>
-                        </Link>
-                        <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                            <X className="h-6 w-6" />
-                            <span className="sr-only">Close menu</span>
-                        </Button>
-                    </div>
-                    <nav className="flex flex-col p-4 space-y-2">
-                      <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-medium p-2 rounded-md hover:bg-muted">Home</Link>
-                      {navLinks.map((link) => (
-                        <Link
-                        key={link.href}
-                        href={link.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-lg font-medium p-2 rounded-md hover:bg-muted"
-                        >
-                        {link.label}
-                        </Link>
-                      ))}
-                    </nav>
-                    <div className="mt-auto p-4 border-t">
-                        {loading ? (
-                             <div className="h-8 w-full animate-pulse rounded-md bg-muted" />
-                        ) : !user && (
-                            <div className="flex flex-col space-y-2">
-                                <Button variant="ghost" asChild>
-                                  <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-                                </Button>
-                                <Button asChild>
-                                  <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link>
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
+        <div className="hidden md:flex items-center gap-4">
+          {user ? (
+            <UserNav />
+          ) : (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button asChild className="bg-gradient-primary hover:opacity-90 transition-opacity">
+                <Link href="/signup">Get Started</Link>
+              </Button>
+            </>
+          )}
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
       </div>
+
+      {/* Mobile Navigation */}
+      {mobileMenuOpen && (
+        <div className="md:hidden border-t bg-background" role="navigation" aria-label="Mobile navigation">
+          <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors hover:text-primary ${
+                  isActive(link.href) ? "text-primary" : "text-muted-foreground"
+                }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="flex flex-col gap-2 pt-4 border-t">
+              {user ? (
+                 <Button variant="ghost" asChild className="w-full">
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
+                  </Button>
+              ) : (
+                <>
+                  <Button variant="ghost" asChild className="w-full">
+                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+                  </Button>
+                  <Button asChild className="w-full bg-gradient-primary hover:opacity-90 transition-opacity">
+                    <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
-}
+};
+
+export default Header;

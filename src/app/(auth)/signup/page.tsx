@@ -1,66 +1,54 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
+import { Eye, EyeOff, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import type { UserProfile, Role } from "@/lib/types";
-import { AuthFormWrapper } from "@/components/auth/auth-form-wrapper";
-import { Loader2 } from "lucide-react";
 
-const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 48 48" {...props}>
-    <path
-      fill="#FFC107"
-      d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039L38.802 9.182C34.935 5.636 29.824 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"
-    />
-    <path
-      fill="#FF3D00"
-      d="M6.306 14.691c-1.56 3.013-2.454 6.472-2.454 10.129c0 3.657.894 7.116 2.454 10.129l-5.61-4.01C.74 26.866 0 30.34 0 34c0 4.148 1.481 7.94 3.967 10.871L12.44 34.32C10.669 31.688 9.694 28.53 9.694 25.189s.975-6.499 2.746-9.137L6.306 14.691z"
-    />
-    <path
-      fill="#4CAF50"
-      d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025A20.01 20.01 0 0 0 24 44z"
-    />
-    <path
-      fill="#1976D2"
-      d="M43.611 20.083L43.595 20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l6.19 5.238C44.438 36.336 48 30.169 48 24c0-1.341-.138-2.65-.389-3.917z"
-    />
-  </svg>
-);
-
-const roles: Role[] = ["student", "teacher", "sponsor"];
-
-export default function SignUpPage() {
+const Signup = () => {
   const router = useRouter();
   const { toast } = useToast();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState<Role>("student");
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "" as Role | "",
+  });
   const [isLoading, setIsLoading] = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.role) {
+      toast({
+        variant: "destructive",
+        title: "Role not selected",
+        description: "Please select a role to continue.",
+      });
+      return;
+    }
     setIsLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
       
-      await updateProfile(user, { displayName: name });
+      await updateProfile(user, { displayName: formData.name });
 
       const newUserProfile: UserProfile = {
         uid: user.uid,
         email: user.email,
-        name: name,
-        role: role,
+        name: formData.name,
+        role: formData.role as Role,
         avatarUrl: user.photoURL
       };
       await setDoc(doc(db, "users", user.uid), newUserProfile);
@@ -83,30 +71,15 @@ export default function SignUpPage() {
   };
 
   const handleGoogleSignIn = async () => {
-    setIsGoogleLoading(true);
+    setIsLoading(true);
     try {
       const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
-      
-      const userRef = doc(db, "users", user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        const newUserProfile: UserProfile = {
-          uid: user.uid,
-          email: user.email,
-          name: user.displayName,
-          role: "student", // Default role for Google Sign-in
-          avatarUrl: user.photoURL,
-        };
-        await setDoc(userRef, newUserProfile);
-      }
-
+      await signInWithPopup(auth, provider);
       toast({
         title: "Success",
         description: "Logged in successfully with Google.",
       });
+      // The FirebaseProvider will handle user creation in Firestore
       router.push("/dashboard");
     } catch (error: any) {
       toast({
@@ -115,106 +88,143 @@ export default function SignUpPage() {
         description: error.message,
       });
     } finally {
-      setIsGoogleLoading(false);
+      setIsLoading(false);
     }
   };
 
   return (
-    <AuthFormWrapper
-      title="Create an account"
-      description="Start your learning journey with us."
-      footerText="Already have an account?"
-      footerLinkText="Log in"
-      footerLink="/login"
-    >
-      <div className="space-y-4">
-        <Button 
-          variant="outline" 
-          className="w-full" 
-          onClick={handleGoogleSignIn}
-          disabled={isLoading || isGoogleLoading}
-        >
-          {isGoogleLoading ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <GoogleIcon className="mr-2 h-5 w-5" />
-          )}
-          Sign up with Google
-        </Button>
-
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with email
-            </span>
-          </div>
+    <div className="min-h-screen flex">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-primary items-center justify-center p-12">
+        <div className="text-center text-primary-foreground space-y-6 max-w-md">
+          <GraduationCap className="h-24 w-24 mx-auto" />
+          <h1 className="text-4xl font-bold">Join SkillHub Today!</h1>
+          <p className="text-lg opacity-90">
+            Start your learning journey or share your expertise with students worldwide. Choose your path and get started in minutes.
+          </p>
         </div>
-      
-        <form className="space-y-4" onSubmit={handleSignUp}>
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              name="name"
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
-              disabled={isLoading || isGoogleLoading}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email address</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="m@example.com"
-              disabled={isLoading || isGoogleLoading}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              disabled={isLoading || isGoogleLoading}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="role">I am a...</Label>
-            <Select onValueChange={(value: Role) => setRole(value)} defaultValue={role} disabled={isLoading || isGoogleLoading}>
-              <SelectTrigger id="role">
-                <SelectValue placeholder="Select your role" />
-              </SelectTrigger>
-              <SelectContent>
-                {roles.map((r) => (
-                  <SelectItem key={r} value={r} className="capitalize">{r}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Button type="submit" className="w-full" disabled={isLoading || isGoogleLoading}>
-              {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sign Up
-            </Button>
-          </div>
-        </form>
       </div>
-    </AuthFormWrapper>
+      <div className="flex-1 flex items-center justify-center p-8 bg-background">
+        <Card className="w-full max-w-md">
+          <CardHeader className="space-y-1">
+            <div className="flex items-center gap-2 justify-center lg:hidden mb-4">
+              <GraduationCap className="h-8 w-8 text-primary" />
+              <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
+            </div>
+            <CardTitle className="text-2xl text-center">Create Your Account</CardTitle>
+            <CardDescription className="text-center">
+              Fill in your details to get started with SkillHub
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  aria-required="true"
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="your.email@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  aria-required="true"
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a strong password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    required
+                    aria-required="true"
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="role">I want to join as</Label>
+                <Select value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value as Role })}>
+                  <SelectTrigger id="role" aria-label="Select your role" disabled={isLoading}>
+                    <SelectValue placeholder="Select your role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="student">Student - Learn new skills</SelectItem>
+                    <SelectItem value="teacher">Teacher - Share knowledge</SelectItem>
+                    <SelectItem value="sponsor">Sponsor - Support education</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90 transition-opacity" disabled={isLoading}>
+                Create Account
+              </Button>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                </div>
+              </div>
+              <Button type="button" variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isLoading}>
+                <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
+                  <path
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                    fill="#4285F4"
+                  />
+                  <path
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                    fill="#34A853"
+                  />
+                  <path
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                    fill="#FBBC05"
+                  />
+                  <path
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                    fill="#EA4335"
+                  />
+                </svg>
+                Sign up with Google
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-sm text-muted-foreground">
+              Already have an account?{" "}
+              <Link href="/login" passHref legacyBehavior>
+                <a className="text-primary hover:underline font-medium">Sign in</a>
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
   );
-}
+};
+
+export default Signup;

@@ -1,82 +1,77 @@
+"use client"
+
 import Link from "next/link";
-import { GraduationCap } from "lucide-react";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+import { GraduationCap, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 
-const footerLinks = [
-    {
-        title: "Platform",
-        links: [
-            { label: "Courses", href: "/courses" },
-            { label: "Live Sessions", href: "/live" },
-            { label: "Community", href: "/community" },
-            { label: "Sponsorships", href: "#" },
-        ]
-    },
-    {
-        title: "Company",
-        links: [
-            { label: "About Us", href: "/about" },
-            { label: "Careers", href: "#" },
-            { label: "Press", href: "#" },
-        ]
-    },
-    {
-        title: "Resources",
-        links: [
-            { label: "Blog", href: "#" },
-            { label: "Help Center", href: "#" },
-            { label: "Contact Us", href: "#" },
-        ]
-    },
-]
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
 
-export default function Footer() {
   return (
-    <footer className="border-t bg-background">
-      <div className="container mx-auto max-w-screen-2xl px-4 md:px-6 py-12">
-        <div className="grid gap-8 grid-cols-2 md:grid-cols-5">
-            <div className="col-span-2 md:col-span-2">
-                 <Link href="/" className="flex items-center space-x-2 mb-4">
-                    <GraduationCap className="h-6 w-6 text-primary" />
-                    <span className="font-bold text-lg">SkillHub</span>
-                </Link>
-                <p className="text-muted-foreground text-sm max-w-xs">
-                    Empowering the next generation of talent through accessible education.
-                </p>
-                <div className="mt-6">
-                    <h4 className="font-semibold mb-2">Subscribe to our newsletter</h4>
-                    <div className="flex w-full max-w-sm items-center space-x-2">
-                        <Input type="email" placeholder="Email" />
-                        <Button type="submit">Subscribe</Button>
-                    </div>
-                </div>
+    <footer className="border-t bg-secondary/30">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="space-y-4">
+            <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+              <GraduationCap className="h-6 w-6 text-primary" aria-hidden="true" />
+              <span className="bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              Empowering learners and educators worldwide with accessible, quality education.
+            </p>
+            <div className="flex gap-4">
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Facebook">
+                <Facebook className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Twitter">
+                <Twitter className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
+                <Linkedin className="h-5 w-5" />
+              </Link>
+              <Link href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
+                <Instagram className="h-5 w-5" />
+              </Link>
             </div>
-            {footerLinks.map((section) => (
-                <div key={section.title}>
-                    <h4 className="font-semibold mb-4">{section.title}</h4>
-                    <ul className="space-y-2">
-                        {section.links.map((link) => (
-                             <li key={link.label}>
-                                <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-        </div>
-        <div className="mt-12 pt-8 border-t flex flex-col sm:flex-row justify-between items-center">
-          <div className="text-sm text-muted-foreground text-center sm:text-left">
-            &copy; {new Date().getFullYear()} SkillHub. All rights reserved.
           </div>
-          <nav className="flex space-x-4 text-sm mt-4 sm:mt-0">
-            <Link href="/privacy" className="text-muted-foreground hover:text-primary transition-colors">Privacy</Link>
-            <Link href="/terms" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
-          </nav>
+
+          <div>
+            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><Link href="/courses" className="text-sm text-muted-foreground hover:text-primary transition-colors">Courses</Link></li>
+              <li><Link href="/live-sessions" className="text-sm text-muted-foreground hover:text-primary transition-colors">Live Sessions</Link></li>
+              <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-4">Support</h3>
+            <ul className="space-y-2">
+              <li><Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link href="/accessibility" className="text-sm text-muted-foreground hover:text-primary transition-colors">Accessibility</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Help Center</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQs</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2">
+              <li><Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Cookie Policy</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-8 border-t text-center">
+          <p className="text-sm text-muted-foreground">
+            © {currentYear} SkillHub. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;

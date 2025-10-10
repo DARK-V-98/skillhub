@@ -2,16 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { FirebaseProvider } from "@/components/providers/firebase-provider";
 import { Toaster } from "@/components/ui/toaster";
-import { Inter } from 'next/font/google';
+import { Sonner as SonnerToaster } from "sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-})
 
 export const metadata: Metadata = {
-  title: "SkillHub",
-  description: "Learn, Teach & Grow with SkillHub",
+  title: "SkillHub - Learn, Teach & Grow Together",
+  description: "Empowering learners and educators worldwide with accessible, quality education. Join live sessions, browse 10,000+ courses, and connect with expert instructors.",
 };
 
 export default function RootLayout({
@@ -20,11 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
-      <body className="antialiased font-sans">
+    <html lang="en">
+      <body>
         <FirebaseProvider>
-          {children}
-          <Toaster />
+          <TooltipProvider>
+            {children}
+            <Toaster />
+            <SonnerToaster />
+          </TooltipProvider>
         </FirebaseProvider>
       </body>
     </html>

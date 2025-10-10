@@ -1,185 +1,235 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, BookOpen, Users, BarChart2, ShieldCheck, Heart } from 'lucide-react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { placeholderImages, placeholderCourses } from '@/lib/placeholder-data';
-import CourseCard from '@/components/general/course-card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Footer from '@/components/layout/footer';
-import Header from '@/components/layout/header';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Video, Accessibility, DollarSign, BookOpen, Users, Award } from "lucide-react";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
+import CourseCard from "@/components/courses/course-card";
 
-const featureCards = [
-  {
-    title: 'Live Sessions',
-    description: 'Engage in real-time with expert instructors and a community of learners.',
-    icon: <Users className="w-8 h-8 text-primary" />,
-  },
-  {
-    title: 'Accessible Learning',
-    description: 'Courses designed with accessibility in mind to empower every student.',
-    icon: <Heart className="w-8 h-8 text-primary" />,
-  },
-  {
-    title: 'Earn by Teaching',
-    description: 'Share your knowledge and skills with a global audience and earn revenue.',
-    icon: <BarChart2 className="w-8 h-8 text-primary" />,
-  },
-];
+const Index = () => {
+  const features = [
+    {
+      icon: Video,
+      title: "Live Sessions",
+      description: "Engage in real-time learning with expert instructors and interactive Q&A sessions.",
+    },
+    {
+      icon: Accessibility,
+      title: "Accessible Learning",
+      description: "Inclusive education with captions, transcripts, and customizable accessibility features.",
+    },
+    {
+      icon: DollarSign,
+      title: "Earn by Teaching",
+      description: "Share your expertise and earn income by creating and selling courses on our platform.",
+    },
+  ];
 
-const testimonials = [
-  {
-    name: "Alex Johnson",
-    role: "Student",
-    quote: "SkillHub has been a game-changer for my career. The accessible courses and live sessions are top-notch!",
-    avatar: placeholderImages.find(img => img.id === 'avatar-1')?.imageUrl || ''
-  },
-  {
-    name: "Maria Garcia",
-    role: "Teacher",
-    quote: "As a teacher, the platform provides all the tools I need to create engaging content and connect with students.",
-    avatar: placeholderImages.find(img => img.id === 'avatar-3')?.imageUrl || ''
-  },
-  {
-    name: "Sam Chen",
-    role: "Sponsor",
-    quote: "Sponsoring students on SkillHub is a rewarding experience. I can see the direct impact of my contributions.",
-    avatar: placeholderImages.find(img => img.id === 'avatar-2')?.imageUrl || ''
-  },
-]
+  const popularCourses = [
+    {
+      title: "Complete Web Development Bootcamp",
+      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop",
+      teacher: "Sarah Johnson",
+      rating: 4.8,
+      price: "$49.99",
+      category: "Development",
+      studentsCount: 12500,
+    },
+    {
+      title: "Digital Marketing Mastery",
+      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
+      teacher: "Michael Chen",
+      rating: 4.9,
+      price: "$39.99",
+      category: "Marketing",
+      studentsCount: 8900,
+    },
+    {
+      title: "UI/UX Design Fundamentals",
+      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop",
+      teacher: "Emma Wilson",
+      rating: 4.7,
+      price: "$44.99",
+      category: "Design",
+      studentsCount: 6700,
+    },
+    {
+      title: "Data Science with Python",
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+      teacher: "David Park",
+      rating: 4.9,
+      price: "$54.99",
+      category: "Data Science",
+      studentsCount: 15200,
+    },
+  ];
 
-
-export default function Home() {
-  const heroImage = placeholderImages.find(img => img.id === 'hero');
+  const testimonials = [
+    {
+      name: "Alex Rodriguez",
+      role: "Software Developer",
+      content: "SkillHub transformed my career. The live sessions and practical projects gave me the skills I needed to land my dream job!",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    },
+    {
+      name: "Priya Sharma",
+      role: "Digital Marketer",
+      content: "The quality of instruction is exceptional. I love how accessible and inclusive the platform is for all learners.",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+    },
+    {
+      name: "James Wilson",
+      role: "Course Instructor",
+      content: "As a teacher, SkillHub provides all the tools I need to create engaging content and connect with students worldwide.",
+      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
+    },
+  ];
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-grow">
+      
+      <main>
         {/* Hero Section */}
-        <section className="relative w-full py-32 md:py-48 lg:py-60 bg-card flex items-center justify-center">
-          {heroImage && (
-             <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              fill
-              className="object-cover z-0"
-              priority
-              data-ai-hint={heroImage.imageHint}
-            />
-          )}
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
-          <div className="container mx-auto px-4 md:px-6 text-center relative z-10">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-headline tracking-tight text-foreground">
-              Learn, Teach & Grow with SkillHub
-            </h1>
-            <p className="mt-4 max-w-3xl mx-auto text-lg md:text-xl text-muted-foreground">
-              The premier platform for students to learn, teachers to educate, and sponsors to empower the next generation of talent.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-               <Button asChild size="lg" className="font-semibold">
-                <Link href="/courses">Browse Courses <ArrowRight className="ml-2 h-5 w-5" /></Link>
-              </Button>
-               <Button asChild size="lg" variant="outline" className="font-semibold bg-background/80">
-                <Link href="/signup">Get Started</Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Grid */}
-        <section className="py-16 md:py-24 bg-background">
-            <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-headline font-bold text-foreground">Why Choose SkillHub?</h2>
-                    <p className="mt-4 max-w-2xl mx-auto text-muted-foreground">We provide a comprehensive ecosystem designed for growth, collaboration, and success.</p>
-                </div>
-                <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-3">
-                    {featureCards.map((feature) => (
-                        <Card key={feature.title} className="text-center hover:shadow-xl transition-shadow duration-300">
-                            <CardHeader className="items-center">
-                                <div className="bg-primary/10 p-4 rounded-full">
-                                    {feature.icon}
-                                </div>
-                            </CardHeader>
-                            <CardContent>
-                                <CardTitle className="font-headline text-xl mb-2">{feature.title}</CardTitle>
-                                <p className="text-muted-foreground">{feature.description}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-            </div>
-        </section>
-
-        {/* Popular Courses */}
-        <section className="py-16 md:py-24 bg-muted/30">
-          <div className="container mx-auto px-4 md:px-6">
-            <div className="flex justify-between items-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-headline font-bold text-foreground">
-                    Explore Our Popular Courses
-                </h2>
-                <Button variant="ghost" asChild>
-                    <Link href="/courses">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
+        <section className="relative bg-gradient-hero py-20 md:py-32">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-in">
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+                Learn, Teach & Grow with <span className="bg-gradient-primary bg-clip-text text-transparent">SkillHub</span>
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground">
+                Join thousands of learners and educators in a vibrant community dedicated to accessible, quality education for all.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" asChild className="bg-gradient-primary hover:opacity-90 transition-opacity text-lg h-12 px-8">
+                  <Link href="/signup">Get Started Free</Link>
                 </Button>
-            </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {placeholderCourses.map((course) => (
-                <CourseCard key={course.id} course={course} />
-              ))}
+                <Button size="lg" variant="outline" asChild className="text-lg h-12 px-8">
+                  <Link href="/courses">Browse Courses</Link>
+                </Button>
+              </div>
+              <div className="flex items-center justify-center gap-8 pt-8 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <BookOpen className="h-5 w-5 text-primary" />
+                  <span>10,000+ Courses</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  <span>500K+ Students</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Award className="h-5 w-5 text-primary" />
+                  <span>5,000+ Instructors</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Testimonials Section */}
-        <section className="py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-4 md:px-6">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold text-center text-foreground">What Our Community Says</h2>
-            <p className="mt-4 max-w-2xl mx-auto text-center text-muted-foreground">Hear from students, teachers, and sponsors who are part of our journey.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-              {testimonials.map((testimonial) => (
-                <Card key={testimonial.name} className="flex flex-col">
-                  <CardContent className="pt-6">
-                    <p className="text-muted-foreground flex-grow">"{testimonial.quote}"</p>
-                  </CardContent>
-                  <CardHeader>
-                    <div className="flex items-center gap-4">
-                      <Avatar>
-                        <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
-                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-semibold">{testimonial.name}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                      </div>
+        {/* Features Section */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose SkillHub?</h2>
+              <p className="text-muted-foreground text-lg">Everything you need to succeed in your learning journey</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {features.map((feature, index) => (
+                <Card key={index} className="text-center p-6 hover:shadow-card-hover transition-all duration-300 animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
+                  <CardContent className="pt-6 space-y-4">
+                    <div className="mx-auto w-16 h-16 rounded-full bg-gradient-primary flex items-center justify-center">
+                      <feature.icon className="h-8 w-8 text-primary-foreground" aria-hidden="true" />
                     </div>
-                  </CardHeader>
+                    <h3 className="text-xl font-semibold">{feature.title}</h3>
+                    <p className="text-muted-foreground">{feature.description}</p>
+                  </CardContent>
                 </Card>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 md:py-24 bg-primary/10">
-          <div className="container text-center">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline">Ready to Start Learning?</h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-xl mx-auto">Join thousands of learners and educators on SkillHub and take the next step in your journey.</p>
-            <div className="mt-8">
-              <Button size="lg" asChild>
-                <Link href="/signup">Sign Up for Free</Link>
+        {/* Popular Courses Section */}
+        <section className="py-20 bg-secondary/30">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular Courses</h2>
+              <p className="text-muted-foreground text-lg">Discover our most loved courses from expert instructors</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {popularCourses.map((course, index) => (
+                <div key={index} className="animate-scale-in" style={{ animationDelay: `${index * 100}ms` }}>
+                  <CourseCard {...course} />
+                </div>
+              ))}
+            </div>
+            <div className="text-center">
+              <Button variant="outline" size="lg" asChild>
+                <Link href="/courses">View All Courses</Link>
               </Button>
             </div>
           </div>
         </section>
 
+        {/* Testimonials Section */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">What Our Community Says</h2>
+              <p className="text-muted-foreground text-lg">Join thousands of satisfied learners and educators</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <Card key={index} className="p-6 hover:shadow-card-hover transition-all duration-300">
+                  <CardContent className="pt-6 space-y-4">
+                    <div className="flex items-center gap-4">
+                      <img
+                        src={testimonial.avatar}
+                        alt={`${testimonial.name}'s avatar`}
+                        className="w-12 h-12 rounded-full"
+                      />
+                      <div>
+                        <p className="font-semibold">{testimonial.name}</p>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </div>
+                    <p className="text-muted-foreground italic">"{testimonial.content}"</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Newsletter Section */}
+        <section className="py-20 bg-gradient-hero">
+          <div className="container mx-auto px-4">
+            <div className="max-w-2xl mx-auto text-center space-y-6">
+              <h2 className="text-3xl md:text-4xl font-bold">Stay Updated</h2>
+              <p className="text-muted-foreground text-lg">
+                Subscribe to our newsletter for the latest courses, tips, and exclusive offers.
+              </p>
+              <form className="flex flex-col sm:flex-row gap-4" onSubmit={(e) => e.preventDefault()}>
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1"
+                  required
+                  aria-label="Email address for newsletter"
+                />
+                <Button type="submit" className="bg-gradient-primary hover:opacity-90 transition-opacity">
+                  Subscribe
+                </Button>
+              </form>
+            </div>
+          </div>
+        </section>
       </main>
+
       <Footer />
     </div>
   );
-}
+};
+
+export default Index;
