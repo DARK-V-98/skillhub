@@ -29,7 +29,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-24 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
-          <Image src="/logo.png" alt="SkillHub Logo" width={240} height={60} className="h-20 w-auto" />
+          <Image src="/logo.png" alt="SkillHub Logo" width={240} height={60} className="h-auto w-auto" style={{width: '240px', height: '60px'}} />
         </Link>
 
         {/* Desktop Navigation */}
@@ -53,10 +53,10 @@ const Header = () => {
           ) : (
             <>
               <Button variant="ghost" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/auth">Login</Link>
               </Button>
               <Button asChild className="bg-gradient-primary hover:opacity-90 transition-opacity">
-                <Link href="/signup">Get Started</Link>
+                <Link href="/auth">Get Started</Link>
               </Button>
             </>
           )}
@@ -97,10 +97,10 @@ const Header = () => {
               ) : (
                 <>
                   <Button variant="ghost" asChild className="w-full">
-                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+                    <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>Login</Link>
                   </Button>
                   <Button asChild className="w-full bg-gradient-primary hover:opacity-90 transition-opacity">
-                    <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
+                    <Link href="/auth" onClick={() => setMobileMenuOpen(false)}>Get Started</Link>
                   </Button>
                 </>
               )}

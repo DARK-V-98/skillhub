@@ -1,3 +1,4 @@
+
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -104,7 +105,7 @@ const Index = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" asChild className="bg-gradient-primary hover:opacity-90 transition-opacity text-lg h-12 px-8">
-                  <Link href="/signup">Get Started Free</Link>
+                  <Link href="/auth">Get Started Free</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild className="text-lg h-12 px-8">
                   <Link href="/courses">Browse Courses</Link>
