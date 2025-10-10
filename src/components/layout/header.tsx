@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -26,9 +27,9 @@ const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+      <div className="container mx-auto flex h-24 items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
-          <Image src="/logo.png" alt="SkillHub Logo" width={160} height={40} className="h-12 w-auto" />
+          <Image src="/logo.png" alt="SkillHub Logo" width={240} height={60} className="h-20 w-auto" />
         </Link>
 
         {/* Desktop Navigation */}
