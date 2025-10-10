@@ -7,6 +7,12 @@
       "imageHint": "education collaboration"
     },
     {
+      "id": "auth-background",
+      "description": "An abstract, calming background image for the authentication page.",
+      "imageUrl": "https://picsum.photos/seed/auth-bg/800/1200",
+      "imageHint": "nature landscape"
+    },
+    {
       "id": "course-web-dev",
       "description": "A computer screen showing lines of code for a web development project.",
       "imageUrl": "https://picsum.photos/seed/web-dev/600/400",
