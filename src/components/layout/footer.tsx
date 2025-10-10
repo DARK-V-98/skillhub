@@ -13,7 +13,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-              <Image src="/logo.png" alt="SkillHub Logo" width={140} height={35} className="h-10 w-auto" />
+              <Image src="/logo.png" alt="SkillHub Logo" width={180} height={45} className="h-12 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground">
               Empowering learners and educators worldwide with accessible, quality education.
@@ -38,7 +38,7 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link href="/courses" className="text-sm text-muted-foreground hover:text-primary transition-colors">Courses</Link></li>
-              <li><Link href="/live-sessions" className="text-sm text-muted-foreground hover:text-primary transition-colors">Live Sessions</Link></li>
+              <li><Link href="/live" className="text-sm text-muted-foreground hover:text-primary transition-colors">Live Sessions</Link></li>
               <li><Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
             </ul>
@@ -47,7 +47,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Support</h3>
             <ul className="space-y-2">
-              <li><Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
+              <li><Link href="/sponsorship" className="text-sm text-muted-foreground hover:text-primary transition-colors">Sponsorship</Link></li>
               <li><Link href="/accessibility" className="text-sm text-muted-foreground hover:text-primary transition-colors">Accessibility</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Help Center</Link></li>
               <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQs</Link></li>
