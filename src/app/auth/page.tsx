@@ -21,6 +21,7 @@ import Image from 'next/image';
 import { placeholderImages } from '@/lib/placeholder-images';
 import { Role, UserProfile } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ArrowLeft } from 'lucide-react';
 
 export default function AuthPage() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -110,6 +111,9 @@ export default function AuthPage() {
           <div className="absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
             <div className="flex h-full bg-background rounded-2xl shadow-2xl overflow-hidden">
                 <div className="w-1/2 hidden md:flex flex-col justify-between p-8 bg-gradient-primary text-primary-foreground relative">
+                  <Button variant="ghost" asChild className="absolute top-4 left-4 z-10 hover:bg-white/20">
+                    <Link href="/"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Home</Link>
+                  </Button>
                   {authImage && 
                     <Image 
                       src={authImage.imageUrl} 
@@ -215,6 +219,9 @@ export default function AuthPage() {
                     </Button>
                 </div>
                 <div className="w-1/2 hidden md:flex flex-col justify-between p-8 bg-gradient-primary text-primary-foreground relative">
+                    <Button variant="ghost" asChild className="absolute top-4 left-4 z-10 hover:bg-white/20">
+                        <Link href="/"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Home</Link>
+                    </Button>
                     {authImage && 
                         <Image 
                         src={authImage.imageUrl} 
