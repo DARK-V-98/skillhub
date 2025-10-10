@@ -1,7 +1,10 @@
 import type { Course } from "./types";
-import { PlaceHolderImages } from "./placeholder-images";
+import { placeholderImages } from "./placeholder-images";
 
-const getImage = (id: string) => PlaceHolderImages.find(img => img.id === id) || { imageUrl: '', imageHint: '' };
+const getImage = (id: string) => {
+  const image = placeholderImages.find(img => img.id === id);
+  return image || { imageUrl: 'https://picsum.photos/seed/placeholder/600/400', imageHint: 'placeholder' };
+}
 
 export const placeholderCourses: Course[] = [
   {
@@ -62,4 +65,4 @@ export const placeholderCourses: Course[] = [
   },
 ];
 
-export const placeholderImages = PlaceHolderImages;
+export { placeholderImages };
