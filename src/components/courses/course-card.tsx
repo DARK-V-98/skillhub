@@ -10,11 +10,22 @@ interface CourseCardProps {
 }
 
 const CourseCard = ({ course }: CourseCardProps) => {
-  const { title, instructor, category, studentsEnrolled, imageUrl, imageHint } = course;
+  const { id, title, instructor, category, studentsEnrolled, imageUrl, imageHint } = course;
   
-  // Dummy data for now
-  const rating = 4.5 + Math.random() * 0.5;
-  const price = `LKR ${(Math.random() * 40 + 20).toFixed(2)}`;
+  // Create deterministic "random" values based on the course ID to prevent hydration errors.
+  const seededRandom = (seed: string) => {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      const char = seed.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash |= 0; // Convert to 32bit integer
+    }
+    const pseudoRandom = (hash & 0x7fffffff) / 0x7fffffff;
+    return pseudoRandom;
+  };
+  
+  const rating = 4.5 + seededRandom(id) * 0.5;
+  const price = `LKR ${(seededRandom(id + 'price') * 4000 + 2000).toFixed(2)}`;
 
   return (
     <Card className="group overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 h-full flex flex-col">
