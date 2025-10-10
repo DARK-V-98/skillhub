@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import CourseCard from "@/components/courses/course-card";
+import { placeholderCourses } from "@/lib/placeholder-data";
 
 const Courses = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,80 +15,7 @@ const Courses = () => {
   const [priceRange, setPriceRange] = useState("all");
   const [level, setLevel] = useState("all");
 
-  const courses = [
-    {
-      title: "Complete Web Development Bootcamp",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop",
-      teacher: "Sarah Johnson",
-      rating: 4.8,
-      price: "LKR 49.99",
-      category: "Development",
-      studentsCount: 12500,
-    },
-    {
-      title: "Digital Marketing Mastery",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
-      teacher: "Michael Chen",
-      rating: 4.9,
-      price: "LKR 39.99",
-      category: "Marketing",
-      studentsCount: 8900,
-    },
-    {
-      title: "UI/UX Design Fundamentals",
-      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop",
-      teacher: "Emma Wilson",
-      rating: 4.7,
-      price: "LKR 44.99",
-      category: "Design",
-      studentsCount: 6700,
-    },
-    {
-      title: "Data Science with Python",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-      teacher: "David Park",
-      rating: 4.9,
-      price: "LKR 54.99",
-      category: "Data Science",
-      studentsCount: 15200,
-    },
-    {
-      title: "Mobile App Development with React Native",
-      image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop",
-      teacher: "Lisa Anderson",
-      rating: 4.6,
-      price: "LKR 59.99",
-      category: "Development",
-      studentsCount: 5400,
-    },
-    {
-      title: "Graphic Design Masterclass",
-      image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=400&h=300&fit=crop",
-      teacher: "Tom Martinez",
-      rating: 4.8,
-      price: "LKR 42.99",
-      category: "Design",
-      studentsCount: 7800,
-    },
-    {
-      title: "SEO & Content Marketing",
-      image: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=400&h=300&fit=crop",
-      teacher: "Rachel Green",
-      rating: 4.7,
-      price: "LKR 36.99",
-      category: "Marketing",
-      studentsCount: 9200,
-    },
-    {
-      title: "Machine Learning A-Z",
-      image: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=400&h=300&fit=crop",
-      teacher: "Dr. James Wilson",
-      rating: 4.9,
-      price: "LKR 64.99",
-      category: "Data Science",
-      studentsCount: 11300,
-    },
-  ];
+  const courses = placeholderCourses;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -124,10 +52,10 @@ const Courses = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Categories</SelectItem>
-                    <SelectItem value="development">Development</SelectItem>
-                    <SelectItem value="design">Design</SelectItem>
-                    <SelectItem value="marketing">Marketing</SelectItem>
-                    <SelectItem value="data-science">Data Science</SelectItem>
+                    <SelectItem value="Development">Development</SelectItem>
+                    <SelectItem value="Design">Design</SelectItem>
+                    <SelectItem value="Marketing">Marketing</SelectItem>
+                    <SelectItem value="Data Science">Data Science</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -138,9 +66,9 @@ const Courses = () => {
                   <SelectContent>
                     <SelectItem value="all">All Prices</SelectItem>
                     <SelectItem value="free">Free</SelectItem>
-                    <SelectItem value="under-50">Under LKR 50</SelectItem>
-                    <SelectItem value="50-100">LKR 50 - LKR 100</SelectItem>
-                    <SelectItem value="over-100">Over LKR 100</SelectItem>
+                    <SelectItem value="under-50">Under LKR 5000</SelectItem>
+                    <SelectItem value="50-100">LKR 5000 - LKR 10000</SelectItem>
+                    <SelectItem value="over-100">Over LKR 10000</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -174,7 +102,7 @@ const Courses = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
             {courses.map((course, index) => (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 50}ms` }}>
-                <CourseCard {...course} />
+                <CourseCard course={course} />
               </div>
             ))}
           </div>

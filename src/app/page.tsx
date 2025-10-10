@@ -8,6 +8,8 @@ import { Video, Accessibility, DollarSign, BookOpen, Users, Award } from "lucide
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import CourseCard from "@/components/courses/course-card";
+import { placeholderCourses, placeholderImages } from "@/lib/placeholder-data";
+import Image from "next/image";
 
 const Index = () => {
   const features = [
@@ -27,46 +29,7 @@ const Index = () => {
       description: "Share your expertise and earn income by creating and selling courses on our platform.",
     },
   ];
-
-  const popularCourses = [
-    {
-      title: "Complete Web Development Bootcamp",
-      image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=300&fit=crop",
-      teacher: "Sarah Johnson",
-      rating: 4.8,
-      price: "LKR 49.99",
-      category: "Development",
-      studentsCount: 12500,
-    },
-    {
-      title: "Digital Marketing Mastery",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
-      teacher: "Michael Chen",
-      rating: 4.9,
-      price: "LKR 39.99",
-      category: "Marketing",
-      studentsCount: 8900,
-    },
-    {
-      title: "UI/UX Design Fundamentals",
-      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop",
-      teacher: "Emma Wilson",
-      rating: 4.7,
-      price: "LKR 44.99",
-      category: "Design",
-      studentsCount: 6700,
-    },
-    {
-      title: "Data Science with Python",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
-      teacher: "David Park",
-      rating: 4.9,
-      price: "LKR 54.99",
-      category: "Data Science",
-      studentsCount: 15200,
-    },
-  ];
-
+  
   const testimonials = [
     {
       name: "Alex Rodriguez",
@@ -160,9 +123,9 @@ const Index = () => {
               <p className="text-muted-foreground text-lg">Discover our most loved courses from expert instructors</p>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-              {popularCourses.map((course, index) => (
+              {placeholderCourses.slice(0, 4).map((course, index) => (
                 <div key={index} className="animate-scale-in" style={{ animationDelay: `${index * 100}ms` }}>
-                  <CourseCard {...course} />
+                  <CourseCard course={course} />
                 </div>
               ))}
             </div>
@@ -186,10 +149,12 @@ const Index = () => {
                 <Card key={index} className="p-6 hover:shadow-card-hover transition-all duration-300">
                   <CardContent className="pt-6 space-y-4">
                     <div className="flex items-center gap-4">
-                      <img
+                      <Image
                         src={testimonial.avatar}
                         alt={`${testimonial.name}'s avatar`}
                         className="w-12 h-12 rounded-full"
+                        width={48}
+                        height={48}
                       />
                       <div>
                         <p className="font-semibold">{testimonial.name}</p>

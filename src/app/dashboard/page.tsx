@@ -33,9 +33,10 @@ export default function DashboardPage() {
       case 'sponsor':
         return <SponsorDashboard user={user} />;
       case 'admin':
+      case 'developer':
         return <AdminDashboard user={user} />;
       default:
-        return <div>Invalid user role.</div>;
+        return <div>Invalid user role. Please contact support.</div>;
     }
   };
 
