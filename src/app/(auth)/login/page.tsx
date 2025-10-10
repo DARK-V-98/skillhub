@@ -10,7 +10,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { AuthFormWrapper } from "@/components/auth/auth-form-wrapper";
 import { Loader2 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 48 48" {...props}>
@@ -91,7 +90,7 @@ export default function LoginPage() {
       footerLinkText="Sign up"
       footerLink="/signup"
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         <Button 
           variant="outline" 
           className="w-full" 
@@ -117,7 +116,7 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <form className="space-y-6" onSubmit={handleSignIn}>
+        <form className="space-y-4" onSubmit={handleSignIn}>
           <div className="space-y-2">
             <Label htmlFor="email">Email address</Label>
             <Input

@@ -35,7 +35,7 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-const roles: Role[] = ["student", "teacher", "sponsor", "admin", "developer"];
+const roles: Role[] = ["student", "teacher", "sponsor"];
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -127,7 +127,7 @@ export default function SignUpPage() {
       footerLinkText="Log in"
       footerLink="/login"
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         <Button 
           variant="outline" 
           className="w-full" 
@@ -153,7 +153,7 @@ export default function SignUpPage() {
           </div>
         </div>
       
-        <form className="space-y-6" onSubmit={handleSignUp}>
+        <form className="space-y-4" onSubmit={handleSignUp}>
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
             <Input
