@@ -1,6 +1,6 @@
 import type { User as FirebaseUser } from "firebase/auth";
 
-export type Role = "student" | "teacher" | "sponsor" | "admin";
+export type Role = "student" | "teacher" | "sponsor" | "admin" | "developer";
 
 export interface UserProfile {
   uid: string;
