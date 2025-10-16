@@ -1,104 +1,211 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Video, Accessibility, DollarSign, BookOpen, Users, Award } from "lucide-react";
-import CourseCard from "@/components/courses/course-card";
+import { Video, Users, CheckCircle, BrainCircuit, Milestone, Handshake, Heart, MonitorPlay, Mic, Languages } from "lucide-react";
 import Image from "next/image";
-import { placeholderCourses } from "@/lib/placeholder-data";
+import { placeholderImages } from "@/lib/placeholder-images";
 
 const features = [
   {
-    icon: Video,
-    title: "Live Sessions",
-    description: "Engage in real-time learning with expert instructors and interactive Q&A sessions.",
+    icon: MonitorPlay,
+    title: "Live Virtual Classroom",
+    description: "Engage with expert instructors in real-time and collaborate with peers.",
   },
   {
-    icon: Accessibility,
-    title: "Accessible Learning",
-    description: "Inclusive education with captions, transcripts, and customizable accessibility features.",
+    icon: BrainCircuit,
+    title: "Content Monetization",
+    description: "Share your expertise and build a sustainable income stream.",
   },
   {
-    icon: DollarSign,
-    title: "Earn by Teaching",
-    description: "Share your expertise and earn income by creating and selling courses on our platform.",
+    icon: CheckCircle,
+    title: "Verified Credentials",
+    description: "Earn industry-recognized certificates to boost your career profile.",
+  },
+  {
+    icon: Heart,
+    title: "Accessible by Default",
+    description: "Our platform is built with inclusivity at its core, supporting all learners.",
+  },
+  {
+    icon: Handshake,
+    title: "Corporate Sponsorship",
+    description: "Empower your team with tailored learning programs and scholarships.",
+  },
+  {
+    icon: Milestone,
+    title: "Developer Portal",
+    description: "Integrate and extend SkillHub with our powerful developer APIs.",
   },
 ];
 
-const testimonials = [
+const roleFeatures = [
+    {
+        role: "For Students",
+        image: "https://picsum.photos/seed/students-role/600/400",
+        imageHint: "students learning",
+        features: ["Live, Interactive Sessions", "Personalized Learning Paths", "Peer-to-Peer Collaboration"],
+        buttonText: "Explore Courses",
+        buttonLink: "/courses",
+        color: "primary"
+    },
+    {
+        role: "For Teachers",
+        image: "https://picsum.photos/seed/teachers-role/600/400",
+        imageHint: "teacher presenting",
+        features: ["Content Monetization", "Powerful Authoring Tools", "Audience Engagement Analytics"],
+        buttonText: "Become A Teacher",
+        buttonLink: "/auth",
+        color: "sky"
+    },
+    {
+        role: "For Sponsors",
+        image: "https://picsum.photos/seed/sponsors-role/600/400",
+        imageHint: "business meeting",
+        features: ["Fund Scholarships", "Brand Visibility", "Impact Reporting"],
+        buttonText: "Become a Sponsor",
+        buttonLink: "/sponsor",
+        color: "orange"
+    }
+]
+
+const accessibilityFeatures = [
   {
-    name: "Alex Rodriguez",
-    role: "Software Developer",
-    content: "SkillHub transformed my career. The live sessions and practical projects gave me the skills I needed to land my dream job!",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex",
+    icon: MonitorPlay,
+    title: "Visual Accessibility",
+    features: ["High-contrast themes", "Adjustable text sizes", "Screen reader support"]
   },
   {
-    name: "Priya Sharma",
-    role: "Digital Marketer",
-    content: "The quality of instruction is exceptional. I love how accessible and inclusive the platform is for all learners.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+    icon: Mic,
+    title: "Hearing Accessibility",
+    features: ["Real-time captions", "Downloadable transcripts", "Sign language support"]
   },
   {
-    name: "James Wilson",
-    role: "Course Instructor",
-    content: "As a teacher, SkillHub provides all the tools I need to create engaging content and connect with students worldwide.",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
+    icon: Milestone,
+    title: "Motor Accessibility",
+    features: ["Full keyboard navigation", "Voice command integration", "Reduced motion options"]
   },
-];
+  {
+    icon: Languages,
+    title: "Cognitive Accessibility",
+    features: ["Dyslexia-friendly fonts", "Summarized content views", "Focus mode for lessons"]
+  }
+]
 
 export default function Home() {
+  const heroImage = placeholderImages.find(p => p.id === 'hero');
+
   return (
     <>
-      <section className="py-20 md:py-32">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-            Learn, Teach & Grow with <span className="text-primary">SkillHub</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Join thousands of learners and educators in a vibrant community dedicated to accessible, quality education for all.
-          </p>
-          <div className="mt-8 flex justify-center gap-4">
-            <Button size="lg" asChild>
-              <Link href="/auth">Get Started</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/courses">Browse Courses</Link>
-            </Button>
+      <section className="relative pt-24 pb-24 md:pt-32 md:pb-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background -z-10"></div>
+        <div className="absolute inset-x-0 top-0 h-[500px] w-full bg-[url('/wavy-grid.svg')] bg-cover bg-center bg-repeat-x opacity-20 -z-10"></div>
+        <div className="container grid md:grid-cols-2 gap-8 items-center">
+          <div className="text-center md:text-left">
+            <p className="inline-block bg-primary/10 text-primary font-semibold px-3 py-1 rounded-full text-sm mb-4">Empowering Education for Everyone</p>
+            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+              Empowering Education for <span className="text-sky-500">Everyone</span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground md:mx-0">
+              Bridge education gaps with our AI-powered, live teaching tools. Launch your own courses, engage with a global community, and unlock new opportunities.
+            </p>
+            <div className="mt-8 flex justify-center md:justify-start gap-4">
+              <Button size="lg" asChild>
+                <Link href="/auth">Get Started Free</Link>
+              </Button>
+              <Button size="lg" variant="outline" asChild>
+                <Link href="#"> <Video className="mr-2 h-4 w-4" /> Watch Video</Link>
+              </Button>
+            </div>
+            <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-x-8 gap-y-4 text-sm text-muted-foreground">
+              <div className="text-center">
+                <p className="font-bold text-2xl text-foreground">10K+</p>
+                <p>Active Students</p>
+              </div>
+               <div className="text-center">
+                <p className="font-bold text-2xl text-foreground">500+</p>
+                <p>Expert Instructors</p>
+              </div>
+               <div className="text-center">
+                <p className="font-bold text-2xl text-foreground">100%</p>
+                <p>Success Rate</p>
+              </div>
+            </div>
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <BookOpen className="h-5 w-5 text-primary" />
-              <span>10,000+ Courses</span>
+          <div className="relative h-80 md:h-full">
+            {heroImage && 
+              <Image 
+                src={heroImage.imageUrl} 
+                alt={heroImage.imageHint} 
+                fill
+                className="object-cover rounded-2xl shadow-xl"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+                data-ai-hint={heroImage.imageHint}
+              />
+            }
+             <div className="absolute -bottom-4 -left-4 bg-background/80 backdrop-blur-sm p-3 rounded-xl shadow-lg border text-sm">
+                <p className="font-bold text-sky-500">24/7</p>
+                <p className="text-muted-foreground">Live Support</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Users className="h-5 w-5 text-primary" />
-              <span>500K+ Students</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Award className="h-5 w-5 text-primary" />
-              <span>5,000+ Instructors</span>
+            <div className="absolute -top-4 -right-4 bg-background/80 backdrop-blur-sm p-3 rounded-xl shadow-lg border text-sm">
+                <p className="font-bold text-primary">A+</p>
+                <p className="text-muted-foreground">Grade Material</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-secondary py-20">
+      <section className="py-20">
         <div className="container">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Why Choose SkillHub?</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Everything you need to succeed in your learning journey</p>
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Everything You Need to <span className="text-primary">Learn & Teach</span></h2>
+            <p className="mt-4 text-lg text-muted-foreground">A comprehensive platform designed with the best tools and features to help you succeed, whatever your role.</p>
           </div>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <Card key={index} className="text-left p-6 bg-secondary/30 hover:bg-secondary/50 transition-colors">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <feature.icon className="h-6 w-6" aria-hidden="true" />
                   </div>
-                </CardHeader>
-                <CardContent>
-                  <h3 className="text-xl font-semibold">{feature.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-lg font-semibold">{feature.title}</h3>
+                  <p className="mt-2 text-muted-foreground text-sm">{feature.description}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-secondary/30">
+        <div className="container">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Built for <span className="text-primary">Every Role</span></h2>
+            <p className="mt-4 text-lg text-muted-foreground">Whether you’re learning, teaching, or sponsoring, we’ve got you covered.</p>
+          </div>
+          <div className="mt-12 grid gap-8 md:grid-cols-3">
+            {roleFeatures.map((role) => (
+              <Card key={role.role} className="overflow-hidden">
+                <div className="relative h-56 w-full">
+                  <Image src={role.image} alt={role.imageHint} fill className="object-cover" data-ai-hint={role.imageHint}/>
+                   <div className={`absolute top-3 right-3 h-8 w-8 rounded-full flex items-center justify-center ${role.color === 'primary' ? 'bg-primary' : role.color === 'sky' ? 'bg-sky-500' : 'bg-orange-500'}`}>
+                    <Users className="h-5 w-5 text-white" />
+                  </div>
+                </div>
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-bold">{role.role}</h3>
+                  <ul className="mt-4 space-y-2 text-muted-foreground">
+                    {role.features.map(feature => (
+                      <li key={feature} className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
+                <div className="p-6 pt-0">
+                  <Button asChild className="w-full" variant={role.color === 'primary' ? 'default' : 'outline'}>
+                    <Link href={role.buttonLink}>{role.buttonText}</Link>
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>
@@ -106,47 +213,44 @@ export default function Home() {
       </section>
 
       <section className="py-20">
-        <div className="container">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Popular Courses</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Discover our most loved courses from expert instructors</p>
-          </div>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {placeholderCourses.slice(0, 4).map((course) => (
-              <CourseCard key={course.id} course={course} />
+        <div className="container text-center max-w-4xl mx-auto">
+          <p className="text-orange-500 font-semibold">100% Free for All Differently-Abled Students</p>
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mt-2">Accessibility <span className="text-primary">First, Always</span></h2>
+          <p className="mt-4 text-lg text-muted-foreground">Every student deserves equal access to education. Our platform is built from the ground up with comprehensive accessibility features that empower all individuals to thrive.</p>
+           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {accessibilityFeatures.map((item, index) => (
+                <Card key={index} className="text-left p-4 bg-secondary/30">
+                     <h3 className="font-semibold text-primary">{item.title}</h3>
+                     <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                        {item.features.map(f => (
+                           <li key={f} className="flex items-center gap-2">
+                                <CheckCircle className="h-3 w-3 text-green-500" />
+                                <span>{f}</span>
+                            </li> 
+                        ))}
+                     </ul>
+                </Card>
             ))}
-          </div>
+           </div>
         </div>
       </section>
 
-      <section className="bg-secondary py-20">
+      <section className="py-20 bg-secondary/30">
         <div className="container">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What Our Community Says</h2>
-            <p className="mt-4 text-lg text-muted-foreground">Join thousands of satisfied learners and educators</p>
-          </div>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index}>
-                <CardContent className="pt-6">
-                  <p className="italic text-muted-foreground">"{testimonial.content}"</p>
-                  <div className="mt-4 flex items-center gap-4">
-                    <Image
-                      src={testimonial.avatar}
-                      alt={`${testimonial.name}'s avatar`}
-                      width={48}
-                      height={48}
-                      className="w-12 h-12 rounded-full"
-                    />
-                    <div>
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            <div className="bg-background rounded-2xl p-12 text-center shadow-lg">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Transform <span className="text-primary">Your Learning Journey?</span></h2>
+                <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+                    Whether you’re starting a new career path or advancing your skills, we have the right course for you.
+                </p>
+                <div className="mt-8 flex justify-center gap-4">
+                    <Button size="lg" asChild>
+                    <Link href="/auth">Get Started Free</Link>
+                    </Button>
+                    <Button size="lg" variant="outline" asChild>
+                    <Link href="/courses">Explore a Tour</Link>
+                    </Button>
+                </div>
+            </div>
         </div>
       </section>
     </>

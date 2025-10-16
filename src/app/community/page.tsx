@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus, MessageSquare, ThumbsUp } from "lucide-react";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 const threads = [
   { id: 1, title: "Best way to learn React in 2024?", author: "Alex", replies: 24, votes: 102, tag: "React" },
@@ -56,19 +57,19 @@ export default function CommunityPage() {
             {threads.map((thread) => (
               <TableRow key={thread.id}>
                 <TableCell>
-                  <Link href="#" className="font-medium hover:underline">{thread.title}</Link>
+                  <Link href="#" className="font-medium hover:text-primary">{thread.title}</Link>
                   <p className="text-sm text-muted-foreground">by {thread.author}</p>
                 </TableCell>
-                <TableCell className="hidden sm:table-cell">{thread.tag}</TableCell>
+                <TableCell className="hidden sm:table-cell"><Badge variant="secondary">{thread.tag}</Badge></TableCell>
                 <TableCell className="text-center">
-                  <div className="flex items-center justify-center gap-1">
-                    <MessageSquare className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex items-center justify-center gap-1 text-muted-foreground">
+                    <MessageSquare className="h-4 w-4" />
                     {thread.replies}
                   </div>
                 </TableCell>
                 <TableCell className="text-center">
-                  <div className="flex items-center justify-center gap-1">
-                    <ThumbsUp className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex items-center justify-center gap-1 text-muted-foreground">
+                    <ThumbsUp className="h-4 w-4" />
                     {thread.votes}
                   </div>
                 </TableCell>

@@ -1,11 +1,14 @@
 import { Award, BookOpen, Target, Users } from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 
 const stats = [
-  { icon: Users, label: "Active Students", value: "500K+" },
-  { icon: BookOpen, label: "Total Courses", value: "10,000+" },
-  { icon: Award, label: "Expert Instructors", value: "5,000+" },
-  { icon: Target, label: "Success Rate", value: "94%" },
+  { icon: Users, label: "Active Students", value: "10,000+" },
+  { icon: Award, label: "Expert Instructors", value: "500+" },
+  { icon: BookOpen, label: "Total Courses", value: "5,000+" },
+  { icon: Target, label: "Success Rate", value: "98%" },
 ];
 
 const team = [
@@ -34,7 +37,8 @@ const team = [
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-secondary py-20">
+      <section className="py-20 bg-background relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background -z-10"></div>
         <div className="container text-center">
           <h1 className="text-4xl font-bold tracking-tight md:text-5xl">About SkillHub</h1>
           <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
@@ -52,17 +56,14 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-secondary py-20">
+      <section className="py-20 bg-secondary/50">
         <div className="container">
-          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">Our Impact</h2>
+          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">Trusted By Thousands</h2>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                  <stat.icon className="h-8 w-8" />
-                </div>
-                <p className="text-3xl font-bold text-primary">{stat.value}</p>
-                <p className="text-muted-foreground">{stat.label}</p>
+                <p className="text-4xl font-bold text-primary">{stat.value}</p>
+                <p className="text-muted-foreground mt-2">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -90,6 +91,25 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+       <section className="py-20">
+        <div className="container">
+            <div className="bg-gradient-to-r from-primary/80 to-primary/90 rounded-2xl p-12 text-center text-primary-foreground">
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Transform Your Learning Journey?</h2>
+                <p className="mx-auto mt-4 max-w-2xl text-lg opacity-90">
+                    Whether you’re starting a new career path or advancing your skills, we have the right course for you.
+                </p>
+                <div className="mt-8 flex justify-center gap-4">
+                    <Button size="lg" variant="secondary" asChild>
+                    <Link href="/auth">Get Started Free</Link>
+                    </Button>
+                    <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+                    <Link href="/courses">Explore Courses</Link>
+                    </Button>
+                </div>
+            </div>
         </div>
       </section>
     </>

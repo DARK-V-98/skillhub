@@ -8,14 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import UserNav from "../auth/user-nav";
 import { useAuth } from "@/hooks/use-auth";
+import Image from "next/image";
 
 const navLinks = [
-  { href: "/", label: "Home" },
   { href: "/courses", label: "Courses" },
-  { href: "/live", label: "Live" },
-  { href: "/community", label: "Community" },
-  { href: "/about", label: "About" },
-  { href: "/sponsor", label: "Sponsor" },
+  { href: "/live", label: "Live Sessions" },
+  { href: "/sponsor", label: "For Teachers" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Header() {
@@ -24,11 +23,10 @@ export default function Header() {
   const { user, loading } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/90 backdrop-blur-sm">
-      <div className="container flex h-16 items-center">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm">
+      <div className="container flex h-20 items-center">
         <Link href="/" className="mr-6 flex items-center space-x-2">
-          <GraduationCap className="h-6 w-6 text-primary" />
-          <span className="font-bold sm:inline-block">SkillHub</span>
+          <Image src="/logo.png" alt="SkillHub Logo" width={100} height={25} className="h-auto" />
         </Link>
         <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
           {navLinks.map((link) => (
@@ -47,10 +45,10 @@ export default function Header() {
            {loading ? null : user ? <UserNav /> : (
             <nav className="hidden items-center space-x-2 md:flex">
               <Button variant="ghost" asChild>
-                <Link href="/auth">Log In</Link>
+                <Link href="/auth">Sign in</Link>
               </Button>
               <Button asChild>
-                <Link href="/auth">Sign Up</Link>
+                <Link href="/auth">Sign up</Link>
               </Button>
             </nav>
            )}

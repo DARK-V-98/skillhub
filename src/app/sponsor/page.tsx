@@ -15,6 +15,7 @@ const tiers = [
       "Access to sponsor community",
       "Tax-deductible donation receipt",
     ],
+    color: "bg-slate-500"
   },
   {
     name: "Gold Sponsor",
@@ -28,6 +29,7 @@ const tiers = [
       "Social media recognition",
     ],
     popular: true,
+    color: "bg-yellow-500"
   },
   {
     name: "Platinum Sponsor",
@@ -40,6 +42,7 @@ const tiers = [
       "Co-branded content opportunities",
       "Executive sponsor meetings",
     ],
+     color: "bg-primary"
   },
 ];
 
@@ -55,11 +58,14 @@ export default function SponsorPage() {
 
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
         {tiers.map((tier) => (
-          <Card key={tier.name} className={`flex flex-col ${tier.popular ? 'border-2 border-primary' : ''}`}>
+          <Card key={tier.name} className={`flex flex-col ${tier.popular ? 'border-2 border-primary shadow-lg' : ''}`}>
             {tier.popular && (
               <div className="py-1 px-3 text-sm font-semibold text-primary-foreground bg-primary text-center">Most Popular</div>
             )}
             <CardHeader className="items-center text-center">
+              <div className={`w-16 h-16 rounded-full ${tier.color} mb-4 flex items-center justify-center text-white font-bold text-2xl`}>
+                {tier.name.charAt(0)}
+              </div>
               <CardTitle className="text-2xl">{tier.name}</CardTitle>
               <div className="mt-2">
                 <span className="text-4xl font-bold">{tier.price}</span>
@@ -95,7 +101,7 @@ export default function SponsorPage() {
         ))}
       </div>
       
-      <Card className="mx-auto mt-16 max-w-2xl">
+      <Card className="mx-auto mt-16 max-w-2xl bg-secondary/30">
         <CardHeader className="text-center">
             <div className="flex justify-center items-center gap-2">
                 <Heart className="h-6 w-6 text-primary" />
