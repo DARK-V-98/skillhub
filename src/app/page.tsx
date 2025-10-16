@@ -102,7 +102,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background -z-10"></div>
         <div className="absolute inset-x-0 top-0 h-[500px] w-full bg-[url('/wavy-grid.svg')] bg-cover bg-center bg-repeat-x opacity-20 -z-10"></div>
         <div className="container grid md:grid-cols-2 gap-8 items-center">
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-left animate-fade-in-up">
             <p className="inline-block bg-primary/10 text-primary font-semibold px-3 py-1 rounded-full text-sm mb-4">Empowering Education for Everyone</p>
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
               Empowering Education for <span className="text-sky-500">Everyone</span>
@@ -133,7 +133,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="relative h-80 md:h-full">
+          <div className="relative h-80 md:h-full animate-fade-in" style={{ animationDelay: '0.2s' }}>
             {heroImage && 
               <Image 
                 src={heroImage.imageUrl} 
@@ -165,7 +165,7 @@ export default function Home() {
           </div>
           <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature, index) => (
-              <Card key={index} className="text-left p-6 bg-secondary/30 hover:bg-secondary/50 transition-colors">
+              <Card key={index} className="text-left p-6 bg-secondary/30 hover:bg-secondary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                     <feature.icon className="h-6 w-6" aria-hidden="true" />
                   </div>
@@ -184,8 +184,8 @@ export default function Home() {
             <p className="mt-4 text-lg text-muted-foreground">Whether you’re learning, teaching, or sponsoring, we’ve got you covered.</p>
           </div>
           <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {roleFeatures.map((role) => (
-              <Card key={role.role} className="overflow-hidden">
+            {roleFeatures.map((role, index) => (
+              <Card key={role.role} className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 animate-fade-in-up" style={{ animationDelay: `${index * 0.15}s` }}>
                 <div className="relative h-56 w-full">
                   <Image src={role.image} alt={role.imageHint} fill className="object-cover" data-ai-hint={role.imageHint}/>
                    <div className={`absolute top-3 right-3 h-8 w-8 rounded-full flex items-center justify-center ${role.color === 'primary' ? 'bg-primary' : role.color === 'sky' ? 'bg-sky-500' : 'bg-orange-500'}`}>
@@ -221,12 +221,12 @@ export default function Home() {
           <p className="mt-4 text-lg text-muted-foreground">Every student deserves equal access to education. Our platform is built from the ground up with comprehensive accessibility features that empower all individuals to thrive.</p>
            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {accessibilityFeatures.map((item, index) => (
-                <Card key={index} className="text-left p-4 bg-secondary/30 flex flex-col">
+                <Card key={index} className="text-left p-4 bg-secondary/30 flex flex-col animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
                      <h3 className="font-semibold text-primary">{item.title}</h3>
                      <ul className="mt-2 space-y-1 text-sm text-muted-foreground flex-grow">
                         {item.features.map(f => (
-                           <li key={f} className="flex items-center gap-2">
-                                <CheckCircle className="h-3 w-3 text-green-500 shrink-0" />
+                           <li key={f} className="flex items-start gap-2">
+                                <CheckCircle className="h-3 w-3 text-green-500 shrink-0 mt-1" />
                                 <span>{f}</span>
                             </li> 
                         ))}
