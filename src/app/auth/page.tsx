@@ -87,9 +87,14 @@ export default function AuthPage() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
+    const provider = new GoogleAuthProvider();
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      // The onAuthStateChanged listener in AuthProvider will handle profile creation
+      // for new Google sign-in users.
+
       toast({ title: 'Success', description: 'Logged in with Google.' });
       router.push('/dashboard');
     } catch (error: any) {
@@ -153,7 +158,7 @@ export default function AuthPage() {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-2">
                                 <Checkbox id="remember" />
-                                <Label htmlFor="remember">Remember me</Label>
+                                <Label htmlFor="remember" className='font-normal'>Remember me</Label>
                             </div>
                             <Link href="#" className="text-sm text-primary hover:underline">Forgot password?</Link>
                         </div>
@@ -198,7 +203,7 @@ export default function AuthPage() {
                         </div>
                          <div className="space-y-2">
                             <Label htmlFor="role">I am a...</Label>
-                            <Select value={signupRole} onValueChange={(value) => setSignupRole(value as Role)} disabled={isLoading}>
+                            <Select value={signupRole} onValueChange={(value) => setSignupRole(value as Role)} required disabled={isLoading}>
                             <SelectTrigger id="role"><SelectValue placeholder="Select your role" /></SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="student">Student</SelectItem>
@@ -248,4 +253,6 @@ export default function AuthPage() {
     </div>
   );
 }
+    
+
     

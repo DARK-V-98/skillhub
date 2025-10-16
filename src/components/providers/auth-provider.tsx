@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useEffect, useState, ReactNode, useContext } from "react";
@@ -45,6 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const userProfile = userSnap.data() as UserProfile;
           setUser({ ...firebaseUser, ...userProfile });
         } else {
+          // This case handles users signing up with a social provider for the first time
           console.warn("User profile not found in Firestore for social login, creating default.");
           const newUserProfile: UserProfile = {
             uid: firebaseUser.uid,
@@ -71,13 +73,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   return (
     <AuthContext.Provider value={{ user, loading }}>
-      {loading ? <div className="w-full h-screen p-8">
-          <div className="space-y-4">
-            <Skeleton className="h-32 w-full" />
-            <Skeleton className="h-32 w-full" />
-            <Skeleton className="h-32 w-full" />
-          </div>
-        </div> : children}
+      {children}
     </AuthContext.Provider>
   );
 };
+
+    

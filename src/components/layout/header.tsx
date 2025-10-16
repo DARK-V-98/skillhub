@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -9,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import UserNav from "../auth/user-nav";
 import Image from "next/image";
 import { useAuth } from "../providers/auth-provider";
+import { Skeleton } from "../ui/skeleton";
 
 const navLinks = [
   { href: "/courses", label: "Courses" },
