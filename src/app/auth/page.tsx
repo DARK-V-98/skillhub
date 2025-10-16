@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -44,6 +45,11 @@ export default function AuthPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    if (!auth) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
+        setIsLoading(false);
+        return;
+    }
     try {
       await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
       toast({ title: 'Success', description: 'Logged in successfully.' });
@@ -62,6 +68,11 @@ export default function AuthPage() {
       return;
     }
     setIsLoading(true);
+    if (!auth || !firestore) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
+        setIsLoading(false);
+        return;
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
       const user = userCredential.user;
@@ -87,14 +98,14 @@ export default function AuthPage() {
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
+     if (!auth) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
+        setIsLoading(false);
+        return;
+    }
     const provider = new GoogleAuthProvider();
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      
-      // The onAuthStateChanged listener in AuthProvider will handle profile creation
-      // for new Google sign-in users.
-
+      await signInWithPopup(auth, provider);
       toast({ title: 'Success', description: 'Logged in with Google.' });
       router.push('/dashboard');
     } catch (error: any) {
@@ -253,6 +264,5 @@ export default function AuthPage() {
     </div>
   );
 }
-    
 
     
