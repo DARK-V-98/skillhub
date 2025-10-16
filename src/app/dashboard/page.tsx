@@ -1,9 +1,12 @@
+
 "use client";
 import AdminDashboard from "@/components/dashboard/admin-dashboard";
 import SponsorDashboard from "@/components/dashboard/sponsor-dashboard";
 import StudentDashboard from "@/components/dashboard/student-dashboard";
 import TeacherDashboard from "@/components/dashboard/teacher-dashboard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/firebase";
+import { AppUser } from "@/lib/types";
 
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
@@ -17,37 +20,37 @@ export default function DashboardPage() {
     return <div>Please log in to view your dashboard.</div>; 
   }
 
-  const renderDashboard = () => {
-    // @ts-ignore - role is not part of the base User type, but is on our AppUser
-    switch (user.role) {
-      case "student":
-        // @ts-ignore
-        return <StudentDashboard user={user} />;
-      case "teacher":
-        // @ts-ignore
-        return <TeacherDashboard user={user} />;
-      case "sponsor":
-        // @ts-ignore
-        return <SponsorDashboard user={user} />;
-      case "admin":
-        // @ts-ignore
-        return <AdminDashboard user={user} />;
-      default:
-        // Default to student dashboard if role is missing for some reason
-        // @ts-ignore
-        return <StudentDashboard user={user} />;
-    }
-  };
+  const currentUserRole = (user as AppUser).role || 'student';
 
   return (
     <div className="container py-12">
         <div className="mb-8">
             <h1 className="text-4xl font-bold tracking-tight">Welcome, {user.displayName || 'User'}!</h1>
             <p className="mt-2 text-lg text-muted-foreground">
-                Here's your personalized dashboard.
+                Here's your overview of the SkillHub platform. Your role is: <span className="font-bold text-primary">{currentUserRole}</span>.
             </p>
         </div>
-        {renderDashboard()}
+        
+        <Tabs defaultValue={currentUserRole} className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="student">Student View</TabsTrigger>
+            <TabsTrigger value="teacher">Teacher View</TabsTrigger>
+            <TabsTrigger value="sponsor">Sponsor View</TabsTrigger>
+            <TabsTrigger value="admin">Admin View</TabsTrigger>
+          </TabsList>
+          <TabsContent value="student" className="mt-6">
+            <StudentDashboard user={user as AppUser} />
+          </TabsContent>
+          <TabsContent value="teacher" className="mt-6">
+            <TeacherDashboard user={user as AppUser} />
+          </TabsContent>
+          <TabsContent value="sponsor" className="mt-6">
+            <SponsorDashboard user={user as AppUser} />
+          </TabsContent>
+          <TabsContent value="admin" className="mt-6">
+            <AdminDashboard user={user as AppUser} />
+          </TabsContent>
+        </Tabs>
     </div>
   );
 }
