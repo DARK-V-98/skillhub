@@ -95,7 +95,7 @@ export default function AuthPage() {
           toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
           router.push('/dashboard');
         })
-        .catch(async (error) => {
+        .catch(async (serverError) => {
           // This catch block is for Firestore permission errors.
           const permissionError = new FirestorePermissionError({
               path: userDocRef.path,
@@ -280,4 +280,5 @@ export default function AuthPage() {
       </div>
     </div>
   );
-  
+
+    
