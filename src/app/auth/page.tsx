@@ -83,32 +83,33 @@ export default function AuthPage() {
         uid: user.uid,
         email: user.email,
         name: signupName,
-        role: signupRole,
         avatarUrl: user.photoURL,
+        role: signupRole,
       };
       
       const userDocRef = doc(firestore, 'users', user.uid);
 
+      // Non-blocking write with contextual error handling
       setDoc(userDocRef, newUserProfile)
         .then(() => {
           toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
           router.push('/dashboard');
         })
-        .catch((error) => {
-            const permissionError = new FirestorePermissionError({
-                path: userDocRef.path,
-                operation: 'create',
-                requestResourceData: newUserProfile,
-            });
-            errorEmitter.emit('permission-error', permissionError);
+        .catch(async (error) => {
+          // This catch block is for Firestore permission errors.
+          const permissionError = new FirestorePermissionError({
+              path: userDocRef.path,
+              operation: 'create',
+              requestResourceData: newUserProfile,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+          // Do not set isLoading to false here, as the error overlay will take over.
         });
 
     } catch (error: any) {
+      // This catch block is for createUserWithEmailAndPassword errors (e.g., email already in use)
       toast({ variant: 'destructive', title: 'Sign Up Failed', description: error.message });
-    } finally {
-      // Note: We might not want to set loading to false here if we want to wait for the setDoc to complete.
-      // For this implementation, we will allow navigation to proceed optimistically.
-      // If setDoc fails, the user will see an error overlay.
+      setIsLoading(false);
     }
   };
 
@@ -279,4 +280,5 @@ export default function AuthPage() {
       </div>
     </div>
   );
-}
+
+    
