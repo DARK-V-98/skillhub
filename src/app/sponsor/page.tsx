@@ -59,8 +59,8 @@ export default function SponsorPage() {
 
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
         {tiers.map((tier, index) => (
-          <div className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.3}s`}}>
-          <Card key={tier.name} className={`flex flex-col ${tier.popular ? 'border-2 border-primary shadow-lg' : ''} h-full`}>
+          <div key={tier.name} className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.3}s`}}>
+          <Card className={`flex flex-col ${tier.popular ? 'border-2 border-primary shadow-lg' : ''} h-full`}>
             {tier.popular && (
               <div className="py-1 px-3 text-sm font-semibold text-primary-foreground bg-primary text-center">Most Popular</div>
             )}
