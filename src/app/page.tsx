@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -214,18 +215,18 @@ export default function Home() {
       </section>
 
       <section className="py-20">
-        <div className="container text-center max-w-4xl mx-auto">
+        <div className="container text-center max-w-5xl mx-auto">
           <p className="text-orange-500 font-semibold">100% Free for All Differently-Abled Students</p>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mt-2">Accessibility <span className="text-primary">First, Always</span></h2>
           <p className="mt-4 text-lg text-muted-foreground">Every student deserves equal access to education. Our platform is built from the ground up with comprehensive accessibility features that empower all individuals to thrive.</p>
            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {accessibilityFeatures.map((item, index) => (
-                <Card key={index} className="text-left p-4 bg-secondary/30">
+                <Card key={index} className="text-left p-4 bg-secondary/30 flex flex-col">
                      <h3 className="font-semibold text-primary">{item.title}</h3>
-                     <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+                     <ul className="mt-2 space-y-1 text-sm text-muted-foreground flex-grow">
                         {item.features.map(f => (
                            <li key={f} className="flex items-center gap-2">
-                                <CheckCircle className="h-3 w-3 text-green-500" />
+                                <CheckCircle className="h-3 w-3 text-green-500 shrink-0" />
                                 <span>{f}</span>
                             </li> 
                         ))}
