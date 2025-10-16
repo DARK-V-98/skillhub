@@ -1,10 +1,13 @@
 
+'use client';
+import { useRef } from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Video, Users, CheckCircle, BrainCircuit, Milestone, Handshake, Heart, MonitorPlay, Mic, Languages } from "lucide-react";
 import Image from "next/image";
 import { placeholderImages } from "@/lib/placeholder-images";
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 const features = [
   {
@@ -95,6 +98,8 @@ const accessibilityFeatures = [
 
 export default function Home() {
   const heroImage = placeholderImages.find(p => p.id === 'hero');
+  const roleFeaturesRef = useRef<HTMLDivElement>(null);
+  const isRoleFeaturesVisible = useScrollAnimation(roleFeaturesRef);
 
   return (
     <>
@@ -177,39 +182,42 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 bg-secondary/30">
+      <section className="py-20 bg-secondary/30" ref={roleFeaturesRef}>
         <div className="container">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Built for <span className="text-primary">Every Role</span></h2>
             <p className="mt-4 text-lg text-muted-foreground">Whether you’re learning, teaching, or sponsoring, we’ve got you covered.</p>
           </div>
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {roleFeatures.map((role, index) => (
-              <Card key={role.role} className="overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 animate-fade-in-up" style={{ animationDelay: `${index * 0.15}s` }}>
-                <div className="relative h-56 w-full">
-                  <Image src={role.image} alt={role.imageHint} fill className="object-cover" data-ai-hint={role.imageHint}/>
-                   <div className={`absolute top-3 right-3 h-8 w-8 rounded-full flex items-center justify-center ${role.color === 'primary' ? 'bg-primary' : role.color === 'sky' ? 'bg-sky-500' : 'bg-orange-500'}`}>
-                    <Users className="h-5 w-5 text-white" />
+          <div className="mt-12 grid gap-8 md:grid-cols-3" style={{ perspective: '1000px' }}>
+            {roleFeatures.map((role, index) => {
+              const animationClass = isRoleFeaturesVisible ? (index === 0 ? 'animate-swing-in-left' : index === 1 ? 'animate-swing-in-down' : 'animate-swing-in-right') : 'opacity-0';
+              return (
+                <Card key={role.role} className={`overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${animationClass}`}>
+                  <div className="relative h-56 w-full">
+                    <Image src={role.image} alt={role.imageHint} fill className="object-cover" data-ai-hint={role.imageHint}/>
+                    <div className={`absolute top-3 right-3 h-8 w-8 rounded-full flex items-center justify-center ${role.color === 'primary' ? 'bg-primary' : role.color === 'sky' ? 'bg-sky-500' : 'bg-orange-500'}`}>
+                      <Users className="h-5 w-5 text-white" />
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold">{role.role}</h3>
-                  <ul className="mt-4 space-y-2 text-muted-foreground">
-                    {role.features.map(feature => (
-                      <li key={feature} className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-primary" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-                <div className="p-6 pt-0">
-                  <Button asChild className="w-full" variant={role.color === 'primary' ? 'default' : 'outline'}>
-                    <Link href={role.buttonLink}>{role.buttonText}</Link>
-                  </Button>
-                </div>
-              </Card>
-            ))}
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-bold">{role.role}</h3>
+                    <ul className="mt-4 space-y-2 text-muted-foreground">
+                      {role.features.map(feature => (
+                        <li key={feature} className="flex items-center gap-2">
+                          <CheckCircle className="h-4 w-4 text-primary" />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                  <div className="p-6 pt-0">
+                    <Button asChild className="w-full" variant={role.color === 'primary' ? 'default' : 'outline'}>
+                      <Link href={role.buttonLink}>{role.buttonText}</Link>
+                    </Button>
+                  </div>
+                </Card>
+              )
+            })}
           </div>
         </div>
       </section>

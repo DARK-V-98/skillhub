@@ -94,6 +94,36 @@ const config = {
             transform: 'rotate(360deg)',
           },
         },
+        "swing-in-left": {
+          "0%": {
+            transform: "translateX(-100%) rotateY(90deg) scale(0.5)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateX(0) rotateY(0) scale(1)",
+            opacity: "1",
+          },
+        },
+        "swing-in-right": {
+          "0%": {
+            transform: "translateX(100%) rotateY(-90deg) scale(0.5)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateX(0) rotateY(0) scale(1)",
+            opacity: "1",
+          },
+        },
+        "swing-in-down": {
+          "0%": {
+            transform: "translateY(100%) scale(0.6)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "translateY(0) scale(1)",
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -101,6 +131,9 @@ const config = {
         "fade-in": "fade-in 0.5s ease-out forwards",
         "fade-in-up": "fade-in-up 0.5s ease-out forwards",
         spin: 'spin 1s linear infinite',
+        "swing-in-left": "swing-in-left 0.8s ease-out forwards",
+        "swing-in-right": "swing-in-right 0.8s ease-out forwards",
+        "swing-in-down": "swing-in-down 0.8s ease-out forwards",
       },
     },
   },
