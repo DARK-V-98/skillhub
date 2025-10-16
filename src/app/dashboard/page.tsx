@@ -6,7 +6,7 @@ import StudentDashboard from "@/components/dashboard/student-dashboard";
 import TeacherDashboard from "@/components/dashboard/teacher-dashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/firebase";
-import { AppUser } from "@/lib/types";
+import type { AppUser } from "@/lib/types";
 
 export default function DashboardPage() {
   const { user, isUserLoading } = useUser();
@@ -20,14 +20,14 @@ export default function DashboardPage() {
     return <div>Please log in to view your dashboard.</div>; 
   }
 
-  const currentUserRole = (user as AppUser).role || 'student';
+  const currentUserRole = user.role || 'student';
 
   return (
     <div className="container py-6 md:py-12">
         <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Welcome, {user.displayName || 'User'}!</h1>
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Welcome, {user.name || user.displayName || 'User'}!</h1>
             <p className="mt-2 text-md md:text-lg text-muted-foreground">
-                Here's your overview. Your current role is: <span className="font-bold text-primary">{currentUserRole}</span>.
+                Here's your overview. Your current role is: <span className="font-bold text-primary capitalize">{currentUserRole}</span>.
             </p>
         </div>
         
@@ -39,16 +39,16 @@ export default function DashboardPage() {
             <TabsTrigger value="admin">Admin</TabsTrigger>
           </TabsList>
           <TabsContent value="student" className="mt-6">
-            <StudentDashboard user={user as AppUser} />
+            <StudentDashboard user={user} />
           </TabsContent>
           <TabsContent value="teacher" className="mt-6">
-            <TeacherDashboard user={user as AppUser} />
+            <TeacherDashboard user={user} />
           </TabsContent>
           <TabsContent value="sponsor" className="mt-6">
-            <SponsorDashboard user={user as AppUser} />
+            <SponsorDashboard user={user} />
           </TabsContent>
           <TabsContent value="admin" className="mt-6">
-            <AdminDashboard user={user as AppUser} />
+            <AdminDashboard user={user} />
           </TabsContent>
         </Tabs>
     </div>
