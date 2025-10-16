@@ -21,7 +21,7 @@ import Image from 'next/image';
 import { Role, UserProfile } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft } from 'lucide-react';
-import { useFirebase } from '@/firebase';
+import { useFirebase, errorEmitter, FirestorePermissionError } from '@/firebase';
 import { placeholderImages } from '@/lib/placeholder-images';
 
 export default function AuthPage() {
@@ -69,10 +69,11 @@ export default function AuthPage() {
     }
     setIsLoading(true);
     if (!auth || !firestore) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
-        setIsLoading(false);
-        return;
+      toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
+      setIsLoading(false);
+      return;
     }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, signupEmail, signupPassword);
       const user = userCredential.user;
@@ -85,14 +86,29 @@ export default function AuthPage() {
         role: signupRole,
         avatarUrl: user.photoURL,
       };
-      await setDoc(doc(firestore, 'users', user.uid), newUserProfile);
       
-      toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
-      router.push('/dashboard');
+      const userDocRef = doc(firestore, 'users', user.uid);
+
+      setDoc(userDocRef, newUserProfile)
+        .then(() => {
+          toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
+          router.push('/dashboard');
+        })
+        .catch((error) => {
+            const permissionError = new FirestorePermissionError({
+                path: userDocRef.path,
+                operation: 'create',
+                requestResourceData: newUserProfile,
+            });
+            errorEmitter.emit('permission-error', permissionError);
+        });
+
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Sign Up Failed', description: error.message });
     } finally {
-      setIsLoading(false);
+      // Note: We might not want to set loading to false here if we want to wait for the setDoc to complete.
+      // For this implementation, we will allow navigation to proceed optimistically.
+      // If setDoc fails, the user will see an error overlay.
     }
   };
 
@@ -264,5 +280,3 @@ export default function AuthPage() {
     </div>
   );
 }
-
-    
