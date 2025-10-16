@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Video, Users, CheckCircle, BrainCircuit, Milestone, Handshake, Heart, MonitorPlay, Mic, Languages } from "lucide-react";
 import Image from "next/image";
 import { placeholderImages } from "@/lib/placeholder-images";
@@ -72,24 +72,25 @@ const accessibilityFeatures = [
   {
     icon: MonitorPlay,
     title: "Visual Accessibility",
-    features: ["High-contrast themes", "Adjustable text sizes", "Screen reader support"]
+    features: ["Screen reader optimization", "High contrast modes", "Dyslexia-friendly fonts", "Adjustable font sizes (16-32px)", "Color blind safe palette"]
   },
   {
     icon: Mic,
     title: "Hearing Accessibility",
-    features: ["Real-time captions", "Downloadable transcripts", "Sign language support"]
+    features: ["Mandatory captions", "Sign language interpretation", "Visual notifications", "Transcript-only mode", "Audio description tracks"]
   },
   {
     icon: Milestone,
     title: "Motor Accessibility",
-    features: ["Full keyboard navigation", "Voice command integration", "Reduced motion options"]
+    features: ["Keyboard-only navigation", "Voice control support", "Larger click targets (44px+)", "Extended timeout periods", "No drag-and-drop required"]
   },
   {
     icon: Languages,
     title: "Cognitive Accessibility",
-    features: ["Dyslexia-friendly fonts", "Summarized content views", "Focus mode for lessons"]
+    features: ["Simplified UI mode", "Distraction-free reading", "Content summarization", "Dictionary tooltips", "Clear confirmation dialogs"]
   }
-]
+];
+
 
 export default function Home() {
   const heroImage = placeholderImages.find(p => p.id === 'hero');
