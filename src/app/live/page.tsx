@@ -1,3 +1,4 @@
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -63,21 +64,21 @@ const getStatusClasses = (status: string) => {
 
 export default function LiveSessionsPage() {
   return (
-    <div className="container py-12">
+    <div className="container py-12 animate-fade-in">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-        <div>
+        <div className="animate-fade-in-up">
           <h1 className="text-4xl font-bold tracking-tight">Live Sessions</h1>
           <p className="mt-2 text-lg text-muted-foreground">
             Join interactive learning experiences with expert instructors.
           </p>
         </div>
-        <Button>
+        <Button className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
           <Plus className="mr-2 h-4 w-4" />
           Host a Session
         </Button>
       </div>
 
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row">
+      <div className="mb-8 flex flex-col gap-4 sm:flex-row animate-fade-in-up" style={{animationDelay: '0.3s'}}>
         <Select>
           <SelectTrigger className="w-full sm:w-[200px]" aria-label="Filter sessions">
             <SelectValue placeholder="Filter by status" />
@@ -104,7 +105,8 @@ export default function LiveSessionsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sessions.map((session, index) => (
-          <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+          <div className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.4}s`}}>
+          <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
             <CardHeader className="p-0">
               <div className="relative h-48 w-full">
                 <Image
@@ -119,7 +121,7 @@ export default function LiveSessionsPage() {
                 </Badge>
               </div>
             </CardHeader>
-            <CardContent className="p-4">
+            <CardContent className="p-4 flex-grow">
               <h3 className="mb-2 font-semibold text-lg line-clamp-2">{session.title}</h3>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Image
@@ -162,6 +164,7 @@ export default function LiveSessionsPage() {
               )}
             </CardFooter>
           </Card>
+          </div>
         ))}
       </div>
     </div>

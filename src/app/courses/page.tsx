@@ -17,15 +17,15 @@ export default function CoursesPage() {
   const courses = placeholderCourses;
 
   return (
-      <div className="container py-12">
+      <div className="container py-12 animate-fade-in">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold tracking-tight">Explore Courses</h1>
-          <p className="mt-2 text-lg text-muted-foreground">
+          <h1 className="text-4xl font-bold tracking-tight animate-fade-in-up">Explore Courses</h1>
+          <p className="mt-2 text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: "0.2s"}}>
             Discover your next learning adventure from our extensive catalog.
           </p>
         </div>
 
-        <div className="mb-8 rounded-lg border bg-card p-6 shadow-sm">
+        <div className="mb-8 rounded-lg border bg-card p-6 shadow-sm animate-fade-in-up" style={{animationDelay: "0.3s"}}>
           <div className="flex flex-col gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
@@ -93,8 +93,10 @@ export default function CoursesPage() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {courses.map((course) => (
-              <CourseCard key={course.id} course={course} />
+          {courses.map((course, index) => (
+              <div className="animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
+                <CourseCard key={course.id} course={course} />
+              </div>
           ))}
         </div>
 

@@ -1,3 +1,4 @@
+
 import { Check, Heart, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,17 +49,18 @@ const tiers = [
 
 export default function SponsorPage() {
   return (
-    <div className="container py-12">
+    <div className="container py-12 animate-fade-in">
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Become a Sponsor</h1>
-        <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl animate-fade-in-up">Become a Sponsor</h1>
+        <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: '0.2s'}}>
           Partner with SkillHub to make quality education accessible to everyone. Your support empowers learners and educators worldwide.
         </p>
       </div>
 
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
-        {tiers.map((tier) => (
-          <Card key={tier.name} className={`flex flex-col ${tier.popular ? 'border-2 border-primary shadow-lg' : ''}`}>
+        {tiers.map((tier, index) => (
+          <div className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.3}s`}}>
+          <Card key={tier.name} className={`flex flex-col ${tier.popular ? 'border-2 border-primary shadow-lg' : ''} h-full`}>
             {tier.popular && (
               <div className="py-1 px-3 text-sm font-semibold text-primary-foreground bg-primary text-center">Most Popular</div>
             )}
@@ -98,26 +100,29 @@ export default function SponsorPage() {
               </Button>
             </CardFooter>
           </Card>
+          </div>
         ))}
       </div>
       
-      <Card className="mx-auto mt-16 max-w-2xl bg-secondary/30">
-        <CardHeader className="text-center">
-            <div className="flex justify-center items-center gap-2">
-                <Heart className="h-6 w-6 text-primary" />
-                <CardTitle className="text-2xl">Make a One-Time Donation</CardTitle>
+      <div className="animate-fade-in-up" style={{animationDelay: '0.6s'}}>
+        <Card className="mx-auto mt-16 max-w-2xl bg-secondary/30">
+          <CardHeader className="text-center">
+              <div className="flex justify-center items-center gap-2">
+                  <Heart className="h-6 w-6 text-primary" />
+                  <CardTitle className="text-2xl">Make a One-Time Donation</CardTitle>
+              </div>
+            <p className="text-muted-foreground">
+              Every contribution helps us provide scholarships and improve our platform.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <Input type="number" placeholder="Enter amount" min="1" aria-label="Donation amount" />
+              <Button className="w-full sm:w-auto">Donate Now</Button>
             </div>
-          <p className="text-muted-foreground">
-            Every contribution helps us provide scholarships and improve our platform.
-          </p>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col gap-4 sm:flex-row">
-            <Input type="number" placeholder="Enter amount" min="1" aria-label="Donation amount" />
-            <Button className="w-full sm:w-auto">Donate Now</Button>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+
 import { Award, BookOpen, Target, Users } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -37,11 +38,11 @@ const team = [
 export default function AboutPage() {
   return (
     <>
-      <section className="py-20 bg-background relative overflow-hidden">
+      <section className="py-20 bg-background relative overflow-hidden animate-fade-in">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background -z-10"></div>
         <div className="container text-center">
-          <h1 className="text-4xl font-bold tracking-tight md:text-5xl">About SkillHub</h1>
-          <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
+          <h1 className="text-4xl font-bold tracking-tight md:text-5xl animate-fade-in-up">About SkillHub</h1>
+          <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: "0.2s"}}>
             Empowering millions of learners worldwide through accessible, quality education and innovative teaching methods.
           </p>
         </div>
@@ -49,8 +50,8 @@ export default function AboutPage() {
       
       <section className="py-20">
         <div className="container max-w-4xl">
-            <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">Our Mission</h2>
-            <p className="mt-4 text-center text-lg text-muted-foreground">
+            <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl animate-fade-in-up">Our Mission</h2>
+            <p className="mt-4 text-center text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: "0.2s"}}>
                 At SkillHub, we believe that education should be accessible to everyone, everywhere. Our mission is to democratize learning by providing high-quality courses, live sessions, and community support to help individuals achieve their personal and professional goals.
             </p>
         </div>
@@ -58,10 +59,10 @@ export default function AboutPage() {
 
       <section className="py-20 bg-secondary/50">
         <div className="container">
-          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl">Trusted By Thousands</h2>
+          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight sm:text-4xl animate-fade-in-up">Trusted By Thousands</h2>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
+              <div key={index} className="text-center animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
                 <p className="text-4xl font-bold text-primary">{stat.value}</p>
                 <p className="text-muted-foreground mt-2">{stat.label}</p>
               </div>
@@ -72,13 +73,13 @@ export default function AboutPage() {
 
       <section className="py-20">
         <div className="container">
-          <h2 className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl">Meet Our Team</h2>
-          <p className="mb-12 text-center text-lg text-muted-foreground">
+          <h2 className="mb-4 text-center text-3xl font-bold tracking-tight sm:text-4xl animate-fade-in-up">Meet Our Team</h2>
+          <p className="mb-12 text-center text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: "0.2s"}}>
             Passionate educators, technologists, and innovators.
           </p>
           <div className="mx-auto grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {team.map((member) => (
-              <div key={member.name} className="text-center">
+            {team.map((member, index) => (
+              <div key={member.name} className="text-center animate-fade-in-up" style={{animationDelay: `${index * 0.15}s`}}>
                 <Image
                   src={member.image}
                   alt={`${member.name}, ${member.role}`}
@@ -96,7 +97,7 @@ export default function AboutPage() {
 
        <section className="py-20">
         <div className="container">
-            <div className="bg-gradient-to-r from-primary/80 to-primary/90 rounded-2xl p-12 text-center text-primary-foreground">
+            <div className="bg-gradient-to-r from-primary/80 to-primary/90 rounded-2xl p-12 text-center text-primary-foreground animate-fade-in-up">
                 <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Transform Your Learning Journey?</h2>
                 <p className="mx-auto mt-4 max-w-2xl text-lg opacity-90">
                     Whether you’re starting a new career path or advancing your skills, we have the right course for you.

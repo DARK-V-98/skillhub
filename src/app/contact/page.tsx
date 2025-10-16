@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -6,16 +7,16 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div className="container py-12">
+    <div className="container py-12 animate-fade-in">
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl">Get in Touch</h1>
-        <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
+        <h1 className="text-4xl font-bold tracking-tight md:text-5xl animate-fade-in-up">Get in Touch</h1>
+        <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: '0.2s'}}>
           Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
         </p>
       </div>
 
       <div className="grid gap-12 lg:grid-cols-2">
-        <form className="space-y-6">
+        <form className="space-y-6 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
             <div className="space-y-2">
               <Label htmlFor="name">Your Name</Label>
               <Input id="name" placeholder="John Doe" required />
@@ -42,7 +43,7 @@ export default function ContactPage() {
             </Button>
         </form>
         
-        <div className="space-y-8">
+        <div className="space-y-8 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
           <div className="flex items-start gap-4">
             <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
               <Mail className="h-6 w-6" />
