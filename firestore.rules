@@ -1,94 +1,105 @@
 /**
- * @fileoverview Firestore Security Rules for SkillHub application.
+ * @file Firebase Security Rules for SkillHub application.
  *
  * Core Philosophy:
- * This ruleset enforces a user-ownership model for user profiles and role-based access control for courses. Only authenticated users can access their own profile data. Courses are publicly readable but can only be modified by the assigned instructor.
+ * This ruleset enforces a user-ownership model for user profiles,
+ * restricts role management to authenticated users and
+ * allows public read access to courses with owner-only writes.
  *
  * Data Structure:
- * - /users/{userId}: Stores user profile data. Access is restricted to the owning user.
- * - /roles/{roleId}: Stores role definitions and permissions. Intended to be read-only after initial setup (implementation detail to be handled in backend setup).
- * - /courses/{courseId}: Stores course information. Includes `instructorId` to control write access.
+ * - /users/{userId}: Stores user profile information, accessible only to the user themselves.
+ * - /roles/{roleId}: Stores role definitions and permissions.
+ * - /courses/{courseId}: Stores course information, with public read access but restricted writes.
  *
  * Key Security Decisions:
- * - Users can only read and write their own profile data.
- * - Listing of users is disallowed.
- * - Roles are readable by anyone, but should only be created and updated by administrators (handled through other means).
- * - Courses are publicly readable, but only instructors can modify their courses.
+ * - Users can only read/write their own profile data.
+ * - Role creation/modification is open to authenticated users.
+ * - Courses are publicly readable, but creation/modification is restricted to owners,
+ *   who must be authenticated.
  *
  * Denormalization for Authorization:
- * - The `Course` entity includes the `instructorId` to simplify ownership checks for course modifications. This avoids requiring a `get()` operation to a separate user document.
- *
- * Structural Segregation:
- * - No segregation is applied.
+ * - Courses include `instructorId` for easy owner validation during writes.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Controls access to user profile data. Only the authenticated user can read and write their own profile.
-     * @path /users/{userId}
-     * @allow (get, create, update, delete) if the request is made by the user with matching userId (isOwner).
-     * @deny (get, create, update, delete) if the request is made by a different user or an unauthenticated user.
-     * @principle Enforces document ownership for all operations.
+     * @description Enforces user-ownership for /users/{userId} documents.
+     * @path /databases/{database}/documents/users/{userId}
+     * @allow (create) - User with ID 'user123' creates their own profile.
+     *   request.auth.uid == 'user123' and request.resource.data.id == 'user123'
+     * @allow (get, update, delete) - User with ID 'user123' reads, updates, or deletes their own profile.
+     *   request.auth.uid == 'user123' and resource.data.id == 'user123'
+     * @deny (create) - User with ID 'user123' tries to create a profile for 'user456'.
+     *   request.auth.uid == 'user123' and request.resource.data.id == 'user456'
+     * @deny (update, delete) - User with ID 'user123' tries to update or delete a profile for 'user456'.
+     *   request.auth.uid == 'user123' and resource.data.id == 'user456'
+     * @principle Enforces document ownership for writes.
      */
     match /users/{userId} {
-      // isSignedin() check
-      allow get: if isSignedIn() && isOwner(userId);
-      allow list: if false; // Listing users is not permitted.
-      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isSignedIn() && isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isSignedIn() && isNewOwner(userId);
+      allow update: if isSignedIn() && isExistingOwner(userId) && isOwnerIdImmutable(userId);
       allow delete: if isSignedIn() && isExistingOwner(userId);
+
+      function isOwner(userId) {
+        return request.auth.uid == userId;
+      }
+
+      function isNewOwner(userId) {
+          return request.auth.uid == userId && request.resource.data.get("id") == userId;
+      }
+
+      function isExistingOwner(userId) {
+          return isOwner(userId) && existsAfter(/databases/$(database)/documents/users/$(userId));
+      }
+      
+      function isOwnerIdImmutable(userId) {
+          return request.resource.data.get("id") == resource.data.id;
+      }
     }
 
     /**
-     * @description Controls access to role definitions.  Roles are intended to be read-only after initial setup and read to any user.
-     * @path /roles/{roleId}
-     * @allow get, list: if true;
-     * @allow create, update, delete: if false;
-     * @deny create, update, delete: Always deny write operations.
-     * @principle Roles are read-only for clients.
+     * @description Allows any authenticated user to read and write Roles.
+     * @path /databases/{database}/documents/roles/{roleId}
+     * @allow (create, get, list, update, delete) - Any authenticated user.
+     *   request.auth.uid != null
+     * @deny (create, get, list, update, delete) - Anonymous user.
+     *   request.auth.uid == null
      */
     match /roles/{roleId} {
-      allow get, list: if true;
-      allow create, update, delete: if false;
+        allow get, list: if isSignedIn();
+        allow create: if isSignedIn();
+        allow update: if isSignedIn();
+        allow delete: if isSignedIn();
     }
 
     /**
-     * @description Controls access to course information. Courses are publicly readable, but only instructors can modify them.
-     * @path /courses/{courseId}
-     * @allow get, list: if true;
-     * @allow create: if isSignedIn() && request.resource.data.instructorId == request.auth.uid;
-     * @allow update: if isSignedIn() && isExistingInstructor(resource.data.instructorId);
-     * @allow delete: if isSignedIn() && isExistingInstructor(resource.data.instructorId);
-     * @principle Courses are publicly readable, but only instructors can modify them.
+     * @description Allows public read access to courses, but restricts creation, updates, and deletion to the instructor.
+     * @path /databases/{database}/documents/courses/{courseId}
+     * @allow (get, list) - Any user (authenticated or not) can read course information.
+     *   true
+     * @allow (create) - User with ID 'user123' creates a course with instructorId 'user123'.
+     *   request.auth.uid == 'user123' and request.resource.data.instructorId == 'user123'
+     * @allow (update, delete) - User with ID 'user123' updates or deletes a course where resource.data.instructorId == 'user123'.
+     *   request.auth.uid == 'user123' and resource.data.instructorId == 'user123'
+     * @deny (create) - User with ID 'user123' creates a course with instructorId 'user456'.
+     *   request.auth.uid == 'user123' and request.resource.data.instructorId == 'user456'
+     * @deny (update, delete) - User with ID 'user123' tries to update or delete a course where resource.data.instructorId == 'user456'.
+     *   request.auth.uid == 'user123' and resource.data.instructorId == 'user456'
+     * @principle Allows public reads with owner-only writes, enforcing ownership via instructorId.
      */
     match /courses/{courseId} {
-      allow get, list: if true;
-      allow create: if isSignedIn() && request.resource.data.instructorId == request.auth.uid;
-      allow update: if isSignedIn() && isExistingInstructor(resource.data.instructorId);
-      allow delete: if isSignedIn() && isExistingInstructor(resource.data.instructorId);
+        allow get, list: if true;
+        allow create: if isSignedIn() && request.resource.data.get("instructorId") == request.auth.uid;
+        allow update: if isSignedIn() && resource.data.instructorId == request.auth.uid;
+        allow delete: if isSignedIn() && resource.data.instructorId == request.auth.uid;
     }
 
-    // Helper functions
     function isSignedIn() {
       return request.auth != null;
-    }
-
-    function isOwner(userId) {
-      return request.auth.uid == userId;
-    }
-
-    function isExistingOwner(userId) {
-        return isOwner(userId) && resource != null;
-    }
-
-    function isInstructor(instructorId) {
-      return request.auth.uid == instructorId;
-    }
-
-    function isExistingInstructor(instructorId) {
-        return isInstructor(instructorId) && resource != null;
     }
   }
 }
