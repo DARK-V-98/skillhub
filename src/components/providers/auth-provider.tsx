@@ -37,6 +37,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!auth || !firestore) {
+      setLoading(false);
+      return;
+    };
+    
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
         const userRef = doc(firestore, "users", firebaseUser.uid);
@@ -46,20 +51,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const userProfile = userSnap.data() as UserProfile;
           setUser({ ...firebaseUser, ...userProfile });
         } else {
-          // This case handles users signing up with a social provider for the first time
-          console.warn("User profile not found in Firestore for social login, creating default.");
+          // This case handles users who exist in Auth but not Firestore (e.g. social login)
+          console.warn("User profile not found in Firestore. Creating a default profile.");
           const newUserProfile: UserProfile = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
             name: firebaseUser.displayName,
             avatarUrl: firebaseUser.photoURL,
-            role: "student", // Default role for social logins
+            role: "student", // Default role for any newly created profile
           };
           try {
             await setDoc(userRef, newUserProfile);
             setUser({ ...firebaseUser, ...newUserProfile });
           } catch (error) {
-            console.error("Error creating user profile for social login:", error);
+            console.error("Error creating user profile in Firestore:", error);
+            // We still set the user with the firebase data, but role features might not work
+            setUser(firebaseUser as AppUser);
           }
         }
       } else {
