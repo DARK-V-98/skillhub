@@ -1,225 +1,152 @@
 {
   "entities": {
-    "UserProfile": {
-      "title": "User Profile",
-      "description": "Represents a user of the application, storing their profile information, role, and settings.",
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
       "type": "object",
+      "description": "Represents a user in the SkillHub application.",
       "properties": {
-        "uid": {
+        "id": {
           "type": "string",
-          "description": "The unique identifier for the user, matching the Firebase Auth UID."
+          "description": "Unique identifier for the User entity."
         },
         "email": {
           "type": "string",
-          "format": "email",
-          "description": "The user's email address."
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User's display name."
+        },
+        "roleId": {
+          "type": "string",
+          "description": "Reference to Role. (Relationship: User 1:1 Role)"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "displayName",
+        "roleId"
+      ]
+    },
+    "Role": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Role",
+      "type": "object",
+      "description": "Represents a user role (student, teacher, sponsor, admin) in the SkillHub application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Role entity."
         },
         "name": {
           "type": "string",
-          "description": "The user's full name or display name."
+          "description": "Name of the role (e.g., student, teacher, sponsor, admin)."
         },
-        "avatarUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL to the user's profile picture."
-        },
-        "role": {
-          "type": "string",
-          "description": "The role of the user within the application.",
-          "enum": ["student", "teacher", "sponsor", "admin", "developer"]
-        },
-        "accessibilitySettings": {
-          "type": "object",
-          "description": "User-specific accessibility preferences.",
-          "properties": {
-            "prefersReducedMotion": {
-              "type": "boolean",
-              "description": "Indicates if the user prefers reduced motion."
-            },
-            "highContrastMode": {
-              "type": "boolean",
-              "description": "Indicates if the user prefers a high-contrast theme."
-            }
-          }
-        }
-      },
-      "required": ["uid", "email", "role"]
-    },
-    "Content": {
-      "title": "Content",
-      "description": "Represents a piece of educational content, like a course or a lesson.",
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "The title of the content."
-        },
-        "description": {
-          "type": "string",
-          "description": "A detailed description of the content."
-        },
-        "category": {
-          "type": "string",
-          "description": "The category the content belongs to (e.g., 'Development', 'Design')."
-        },
-        "thumbnailUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL for the content's thumbnail image."
-        },
-        "teacherId": {
-          "description": "The UID of the user who created this content.",
-          "$ref": "#/entities/UserProfile"
-        }
-      },
-      "required": ["title", "description", "category", "teacherId"]
-    },
-    "Session": {
-      "title": "Session",
-      "description": "Represents a scheduled meeting or live session.",
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "The title of the session."
-        },
-        "meetingUrl": {
-          "type": "string",
-          "format": "uri",
-          "description": "The URL for the virtual meeting (e.g., Google Meet, Zoom)."
-        },
-        "startTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The scheduled start time of the session."
-        },
-        "endTime": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The scheduled end time of the session."
-        },
-        "participants": {
+        "permissions": {
           "type": "array",
-          "description": "An array of user UIDs participating in the session.",
+          "description": "List of permissions granted to this role.",
           "items": {
             "type": "string"
           }
         }
       },
-      "required": ["title", "meetingUrl", "startTime", "endTime"]
+      "required": [
+        "id",
+        "name",
+        "permissions"
+      ]
     },
-    "Payment": {
-      "title": "Payment",
-      "description": "Represents a payment transaction for content or services.",
+    "Course": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Course",
       "type": "object",
+      "description": "Represents a course listed in the SkillHub application.",
       "properties": {
-        "userId": {
-          "description": "The UID of the user who made the payment.",
-          "$ref": "#/entities/UserProfile"
-        },
-        "contentId": {
-          "description": "The ID of the content being purchased.",
-          "$ref": "#/entities/Content"
-        },
-        "amount": {
-          "type": "number",
-          "description": "The amount paid."
-        },
-        "currency": {
+        "id": {
           "type": "string",
-          "description": "The currency of the payment (e.g., 'USD')."
+          "description": "Unique identifier for the Course entity."
         },
-        "status": {
-          "type": "string",
-          "description": "The status of the payment.",
-          "enum": ["pending", "succeeded", "failed"]
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The timestamp when the payment was created."
-        }
-      },
-      "required": ["userId", "amount", "currency", "status", "createdAt"]
-    },
-    "Sponsorship": {
-      "title": "Sponsorship",
-      "description": "Represents a sponsorship of a student by a sponsor.",
-      "type": "object",
-      "properties": {
-        "sponsorId": {
-          "description": "The UID of the sponsoring user.",
-          "$ref": "#/entities/UserProfile"
-        },
-        "studentId": {
-          "description": "The UID of the sponsored student.",
-          "$ref": "#/entities/UserProfile"
-        },
-        "amount": {
-          "type": "number",
-          "description": "The amount sponsored."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The timestamp when the sponsorship was made."
-        }
-      },
-      "required": ["sponsorId", "studentId", "amount", "createdAt"]
-    },
-    "ForumThread": {
-      "title": "Forum Thread",
-      "description": "Represents a thread in the discussion forum.",
-      "type": "object",
-      "properties": {
         "title": {
           "type": "string",
-          "description": "The title of the forum thread."
+          "description": "Title of the course."
         },
-        "authorId": {
-          "description": "The UID of the user who started the thread.",
-          "$ref": "#/entities/UserProfile"
-        },
-        "contentId": {
-          "description": "The ID of the content this thread is related to.",
-          "$ref": "#/entities/Content"
-        },
-        "createdAt": {
+        "description": {
           "type": "string",
-          "format": "date-time",
-          "description": "The timestamp when the thread was created."
+          "description": "Description of the course content."
+        },
+        "instructorId": {
+          "type": "string",
+          "description": "Reference to User (Teacher). (Relationship: User 1:N Course)"
         }
       },
-      "required": ["title", "authorId", "contentId", "createdAt"]
+      "required": [
+        "id",
+        "title",
+        "description",
+        "instructorId"
+      ]
     }
   },
   "auth": {
-    "providers": ["email", "google.com"]
+    "providers": [
+      "password",
+      "anonymous"
+    ]
   },
   "firestore": {
-    "/users/{userId}": {
-      "schema": { "$ref": "#/entities/UserProfile" },
-      "description": "Stores the public profile for each user."
-    },
-    "/content/{contentId}": {
-      "schema": { "$ref": "#/entities/Content" },
-      "description": "Collection of all educational content available on the platform."
-    },
-    "/content/{contentId}/sessions/{sessionId}": {
-      "schema": { "$ref": "#/entities/Session" },
-      "description": "Sub-collection for live sessions related to a specific piece of content."
-    },
-    "/users/{userId}/payments/{paymentId}": {
-      "schema": { "$ref": "#/entities/Payment" },
-      "description": "Sub-collection for a user's payment history."
-    },
-    "/sponsorships/{sponsorshipId}": {
-      "schema": { "$ref": "#/entities/Sponsorship" },
-      "description": "Collection of all sponsorship records."
-    },
-    "/forumThreads/{threadId}": {
-      "schema": { "$ref": "#/entities/ForumThread" },
-      "description": "Collection of all main forum threads."
-    }
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile data. Includes standard user information.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles/{roleId}",
+        "definition": {
+          "entityName": "Role",
+          "schema": {
+            "$ref": "#/backend/entities/Role"
+          },
+          "description": "Stores role definitions (student, teacher, sponsor, admin) and their associated permissions.",
+          "params": [
+            {
+              "name": "roleId",
+              "description": "The unique identifier for the role."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/courses/{courseId}",
+        "definition": {
+          "entityName": "Course",
+          "schema": {
+            "$ref": "#/backend/entities/Course"
+          },
+          "description": "Stores course information. Includes denormalized instructorId for easier querying and security rules.",
+          "params": [
+            {
+              "name": "courseId",
+              "description": "The unique identifier for the course."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support SkillHub's role-based access control, user authentication, course listings, and personalized dashboards.  Authorization Independence is achieved by storing role information in dedicated collections and denormalizing the instructorId in the Course collection. User-owned data is stored under the /users/{userId} path. This structure facilitates straightforward and secure security rules. The use of dedicated collections for roles enables QAPs, as list operations on courses can be secured based on instructorId without complex filtering."
   }
 }
