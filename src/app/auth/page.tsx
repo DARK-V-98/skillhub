@@ -10,8 +10,10 @@ import {
   updateProfile,
   signInWithPopup,
   GoogleAuthProvider,
+  getAdditionalUserInfo,
+  User as FirebaseUser,
 } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,8 +23,9 @@ import Image from 'next/image';
 import { Role, UserProfile } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft } from 'lucide-react';
-import { useFirebase, errorEmitter, FirestorePermissionError } from '@/firebase';
+import { useFirebase, errorEmitter, FirestorePermissionError, setDocumentNonBlocking } from '@/firebase';
 import { placeholderImages } from '@/lib/placeholder-images';
+import RoleSelectionDialog from '@/components/auth/role-selection-dialog';
 
 export default function AuthPage() {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -40,6 +43,10 @@ export default function AuthPage() {
   const [signupEmail, setSignupEmail] = useState('');
   const [signupPassword, setSignupPassword] = useState('');
   const [signupRole, setSignupRole] = useState<Role | ''>('');
+  
+  // Role selection state for new Google users
+  const [isRoleDialogOpen, setRoleDialogOpen] = useState(false);
+  const [pendingGoogleUser, setPendingGoogleUser] = useState<FirebaseUser | null>(null);
 
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -88,53 +95,107 @@ export default function AuthPage() {
       };
       
       const userDocRef = doc(firestore, 'users', user.uid);
-
-      // Non-blocking write with contextual error handling
-      setDoc(userDocRef, newUserProfile)
-        .then(() => {
-          toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
-          router.push('/dashboard');
-        })
-        .catch(async (serverError) => {
-          // This catch block is for Firestore permission errors.
-          const permissionError = new FirestorePermissionError({
-              path: userDocRef.path,
-              operation: 'create',
-              requestResourceData: newUserProfile,
-          });
-          errorEmitter.emit('permission-error', permissionError);
-          // Do not set isLoading to false here, as the error overlay will take over.
-        });
+      await setDoc(userDocRef, newUserProfile);
+      toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
+      router.push('/dashboard');
 
     } catch (error: any) {
-      // This catch block is for createUserWithEmailAndPassword errors (e.g., email already in use)
-      toast({ variant: 'destructive', title: 'Sign Up Failed', description: error.message });
+        const userDocRef = auth.currentUser ? doc(firestore, 'users', auth.currentUser.uid) : null;
+        if (error.code === 'auth/email-already-in-use') {
+            toast({ variant: 'destructive', title: 'Sign Up Failed', description: 'This email is already in use.' });
+        } else if (userDocRef) {
+            const permissionError = new FirestorePermissionError({
+              path: userDocRef.path,
+              operation: 'write',
+              requestResourceData: {
+                  uid: auth.currentUser?.uid,
+                  email: signupEmail,
+                  name: signupName,
+                  role: signupRole,
+              },
+            });
+            errorEmitter.emit('permission-error', permissionError);
+        } else {
+            toast({ variant: 'destructive', title: 'Sign Up Failed', description: error.message });
+        }
+    } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
-     if (!auth) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
-        setIsLoading(false);
-        return;
+    if (!auth || !firestore) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Authentication service not available.' });
+      setIsLoading(false);
+      return;
     }
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
-      toast({ title: 'Success', description: 'Logged in with Google.' });
-      router.push('/dashboard');
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      const additionalUserInfo = getAdditionalUserInfo(result);
+      
+      if (additionalUserInfo?.isNewUser) {
+        setPendingGoogleUser(user);
+        setRoleDialogOpen(true);
+      } else {
+        toast({ title: 'Success', description: 'Logged in with Google.' });
+        router.push('/dashboard');
+      }
+
     } catch (error: any) {
       toast({ variant: 'destructive', title: 'Google Sign-In Failed', description: error.message });
     } finally {
       setIsLoading(false);
     }
   };
+  
+  const handleRoleSelection = async (role: Role) => {
+    if (!pendingGoogleUser || !firestore) {
+      toast({ variant: 'destructive', title: 'Error', description: 'User data not available.' });
+      return;
+    }
+    setIsLoading(true);
+
+    const newUserProfile: UserProfile = {
+      uid: pendingGoogleUser.uid,
+      email: pendingGoogleUser.email,
+      name: pendingGoogleUser.displayName,
+      avatarUrl: pendingGoogleUser.photoURL,
+      role: role,
+    };
+    
+    const userDocRef = doc(firestore, 'users', pendingGoogleUser.uid);
+    try {
+      await setDoc(userDocRef, newUserProfile);
+      setRoleDialogOpen(false);
+      setPendingGoogleUser(null);
+      toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
+      router.push('/dashboard');
+    } catch(error: any) {
+       const permissionError = new FirestorePermissionError({
+          path: userDocRef.path,
+          operation: 'write',
+          requestResourceData: newUserProfile,
+        });
+        errorEmitter.emit('permission-error', permissionError);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
 
   const authImage = placeholderImages.find(p => p.id === 'auth-background');
 
   return (
+    <>
+    <RoleSelectionDialog 
+      isOpen={isRoleDialogOpen} 
+      onClose={() => setRoleDialogOpen(false)}
+      onRoleSelect={handleRoleSelection}
+      isLoading={isLoading}
+    />
     <div className="flex items-center justify-center min-h-screen bg-secondary/30 p-4">
       <div className="w-full max-w-4xl" style={{ perspective: '2000px' }}>
         <div
@@ -154,6 +215,7 @@ export default function AuthPage() {
                       alt={authImage.imageHint} 
                       fill 
                       className="object-cover opacity-20" 
+                      data-ai-hint={authImage.imageHint}
                     />
                   }
                   <div className="z-10">
@@ -261,7 +323,8 @@ export default function AuthPage() {
                         src={authImage.imageUrl} 
                         alt={authImage.imageHint} 
                         fill 
-                        className="object-cover opacity-20" 
+                        className="object-cover opacity-20"
+                        data-ai-hint={authImage.imageHint}
                         />
                     }
                     <div className="z-10">
@@ -279,6 +342,6 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+    </>
   );
-
-    
+}

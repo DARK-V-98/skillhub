@@ -38,7 +38,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (!auth || !firestore) {
-      setLoading(false);
+      // Firebase services might not be available on first render on the server.
+      // We'll wait for the client-side provider to initialize them.
       return;
     };
     
@@ -52,20 +53,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             const userProfile = userSnap.data() as UserProfile;
             setUser({ ...firebaseUser, ...userProfile });
           } else {
-            console.warn("User profile not found in Firestore. Creating a default profile.");
-            const newUserProfile: UserProfile = {
-              uid: firebaseUser.uid,
-              email: firebaseUser.email,
-              name: firebaseUser.displayName,
-              avatarUrl: firebaseUser.photoURL,
-              role: "student", // Default role
-            };
-            
-            // Use the non-blocking write with integrated error handling
-            setDocumentNonBlocking(userRef, newUserProfile, {});
-            
-            // Optimistically set the user state on the client
-            setUser({ ...firebaseUser, ...newUserProfile });
+             // Profile doesn't exist, this might be a new Google sign-in
+             // The auth page will handle creating the profile with role selection.
+             // For now, we can set a temporary user state without a role.
+             setUser(firebaseUser as AppUser);
           }
         } catch (error: any) {
           // This will catch permission errors on getDoc
