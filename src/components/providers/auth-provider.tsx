@@ -3,10 +3,9 @@
 
 import React, { createContext, useEffect, useState, ReactNode, useContext } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { useFirebase, errorEmitter, FirestorePermissionError, setDocumentNonBlocking } from "@/firebase";
-import type { AppUser, UserProfile } from "@/lib/types";
-import { Skeleton } from "../ui/skeleton";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
+import { useFirebase, errorEmitter, FirestorePermissionError } from "@/firebase";
+import type { AppUser, UserProfile, Role } from "@/lib/types";
 
 interface AuthContextType {
   user: AppUser | null;
@@ -38,41 +37,69 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     if (!auth || !firestore) {
-      // Firebase services might not be available on first render on the server.
-      // We'll wait for the client-side provider to initialize them.
       return;
     };
     
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
+    let unsubscribeProfile: (() => void) | null = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
+      if (unsubscribeProfile) {
+        unsubscribeProfile();
+        unsubscribeProfile = null;
+      }
+
       if (firebaseUser) {
         const userRef = doc(firestore, "users", firebaseUser.uid);
-        try {
-          const userSnap = await getDoc(userRef);
-
-          if (userSnap.exists()) {
-            const userProfile = userSnap.data() as UserProfile;
-            setUser({ ...firebaseUser, ...userProfile });
-          } else {
-             // Profile doesn't exist, this might be a new Google sign-in
-             // The auth page will handle creating the profile with role selection.
-             // For now, we can set a temporary user state without a role.
-             setUser(firebaseUser as AppUser);
-          }
-        } catch (error: any) {
-          // This will catch permission errors on getDoc
-          const permissionError = new FirestorePermissionError({
+        
+        unsubscribeProfile = onSnapshot(userRef, 
+          async (docSnap) => {
+            if (docSnap.exists()) {
+              const userProfile = docSnap.data() as UserProfile;
+              setUser({ ...firebaseUser, ...userProfile });
+            } else {
+              // Profile doesn't exist, create it with a default role
+              const newUserProfile: UserProfile = {
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+                name: firebaseUser.displayName,
+                avatarUrl: firebaseUser.photoURL,
+                role: 'student', // Default role
+              };
+              try {
+                await setDoc(userRef, newUserProfile);
+                setUser({ ...firebaseUser, ...newUserProfile });
+              } catch (error) {
+                  const permissionError = new FirestorePermissionError({
+                    path: userRef.path,
+                    operation: 'write',
+                    requestResourceData: newUserProfile,
+                  });
+                  errorEmitter.emit('permission-error', permissionError);
+              }
+            }
+            setLoading(false);
+          }, 
+          (error) => {
+            const permissionError = new FirestorePermissionError({
               path: userRef.path,
               operation: 'get',
-          });
-          errorEmitter.emit('permission-error', permissionError);
-        }
+            });
+            errorEmitter.emit('permission-error', permissionError);
+            setLoading(false);
+          }
+        );
       } else {
         setUser(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeProfile) {
+        unsubscribeProfile();
+      }
+    };
   }, [auth, firestore]);
 
   return (
