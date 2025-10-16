@@ -23,20 +23,20 @@ export default function DashboardPage() {
   const currentUserRole = (user as AppUser).role || 'student';
 
   return (
-    <div className="container py-12">
+    <div className="container py-6 md:py-12">
         <div className="mb-8">
-            <h1 className="text-4xl font-bold tracking-tight">Welcome, {user.displayName || 'User'}!</h1>
-            <p className="mt-2 text-lg text-muted-foreground">
-                Here's your overview of the SkillHub platform. Your role is: <span className="font-bold text-primary">{currentUserRole}</span>.
+            <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Welcome, {user.displayName || 'User'}!</h1>
+            <p className="mt-2 text-md md:text-lg text-muted-foreground">
+                Here's your overview. Your current role is: <span className="font-bold text-primary">{currentUserRole}</span>.
             </p>
         </div>
         
         <Tabs defaultValue={currentUserRole} className="w-full">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="student">Student View</TabsTrigger>
-            <TabsTrigger value="teacher">Teacher View</TabsTrigger>
-            <TabsTrigger value="sponsor">Sponsor View</TabsTrigger>
-            <TabsTrigger value="admin">Admin View</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto">
+            <TabsTrigger value="student">Student</TabsTrigger>
+            <TabsTrigger value="teacher">Teacher</TabsTrigger>
+            <TabsTrigger value="sponsor">Sponsor</TabsTrigger>
+            <TabsTrigger value="admin">Admin</TabsTrigger>
           </TabsList>
           <TabsContent value="student" className="mt-6">
             <StudentDashboard user={user as AppUser} />

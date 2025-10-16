@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { AppUser } from "@/lib/types";
 import { placeholderCourses } from "@/lib/placeholder-data";
 import { PlusCircle, Users, BarChart, DollarSign } from "lucide-react";
+import { Badge } from "../ui/badge";
 
 interface TeacherDashboardProps {
   user: AppUser;
@@ -20,7 +21,7 @@ export default function TeacherDashboard({ user }: TeacherDashboardProps) {
   return (
     <div className="space-y-8">
       <section>
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
@@ -65,35 +66,37 @@ export default function TeacherDashboard({ user }: TeacherDashboardProps) {
       </section>
 
       <section>
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
           <h2 className="text-2xl font-bold">My Courses</h2>
-          <Button>
+          <Button className="w-full sm:w-auto">
             <PlusCircle className="mr-2 h-4 w-4" /> Create New Course
           </Button>
         </div>
         <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Course Title</TableHead>
-                <TableHead>Enrolled Students</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {myCourses.map((course) => (
-                <TableRow key={course.id}>
-                  <TableCell className="font-medium">{course.title}</TableCell>
-                  <TableCell>{course.studentsEnrolled.toLocaleString()}</TableCell>
-                  <TableCell>{course.category}</TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="outline" size="sm">Manage</Button>
-                  </TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Course Title</TableHead>
+                  <TableHead className="hidden md:table-cell">Students</TableHead>
+                  <TableHead className="hidden sm:table-cell">Category</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {myCourses.map((course) => (
+                  <TableRow key={course.id}>
+                    <TableCell className="font-medium">{course.title}</TableCell>
+                    <TableCell className="hidden md:table-cell">{course.studentsEnrolled.toLocaleString()}</TableCell>
+                    <TableCell className="hidden sm:table-cell"><Badge variant="secondary">{course.category}</Badge></TableCell>
+                    <TableCell className="text-right">
+                      <Button variant="outline" size="sm">Manage</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </Card>
       </section>
     </div>

@@ -51,13 +51,13 @@ export default function SponsorPage() {
   return (
     <div className="container py-12 animate-fade-in">
       <div className="mb-12 text-center">
-        <h1 className="text-4xl font-bold tracking-tight md:text-5xl animate-fade-in-up">Become a Sponsor</h1>
-        <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+        <h1 className="text-3xl font-bold tracking-tight md:text-5xl animate-fade-in-up">Become a Sponsor</h1>
+        <p className="mx-auto mt-4 max-w-3xl text-md md:text-lg text-muted-foreground animate-fade-in-up" style={{animationDelay: '0.2s'}}>
           Partner with SkillHub to make quality education accessible to everyone. Your support empowers learners and educators worldwide.
         </p>
       </div>
 
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-3">
         {tiers.map((tier, index) => (
           <div key={tier.name} className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.3}s`}}>
           <Card className={`flex flex-col ${tier.popular ? 'border-2 border-primary shadow-lg' : ''} h-full`}>
@@ -73,7 +73,7 @@ export default function SponsorPage() {
                 <span className="text-4xl font-bold">{tier.price}</span>
                 <span className="text-muted-foreground">{tier.period}</span>
               </div>
-              <p className="mt-2 text-sm text-muted-foreground">{tier.description}</p>
+              <p className="mt-2 text-sm text-muted-foreground h-10">{tier.description}</p>
             </CardHeader>
             <CardContent className="flex-1 space-y-4">
               <ul className="space-y-2">

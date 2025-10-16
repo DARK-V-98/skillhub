@@ -14,8 +14,8 @@ import { Skeleton } from "../ui/skeleton";
 
 const navLinks = [
   { href: "/courses", label: "Courses" },
-  { href: "/live", label: "Live Sessions" },
-  { href: "/sponsor", label: "For Teachers" },
+  { href: "/live", label: "Live" },
+  { href: "/sponsor", label: "Sponsorship" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -43,7 +43,7 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex flex-1 items-center justify-end space-x-4">
+        <div className="flex flex-1 items-center justify-end space-x-2 md:space-x-4">
            {loading ? <Skeleton className="h-8 w-8 rounded-full" /> : user ? <UserNav /> : (
             <nav className="hidden items-center space-x-2 md:flex">
               <Button variant="ghost" asChild>
@@ -66,13 +66,13 @@ export default function Header() {
                 <Link href="/" className="mr-6 flex items-center space-x-2">
                    <Image src="/logo.png" alt="SkillHub Logo" width={100} height={25} className="h-auto" />
                 </Link>
-                <div className="flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 pt-4">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className={`transition-colors hover:text-foreground/80 ${
+                      className={`text-lg font-medium transition-colors hover:text-foreground/80 ${
                         pathname === link.href ? "text-foreground" : "text-foreground/60"
                       }`}
                     >

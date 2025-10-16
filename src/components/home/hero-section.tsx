@@ -20,7 +20,7 @@ export function HeroSection() {
     >
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background -z-10"></div>
       <div className="absolute inset-x-0 top-0 h-[500px] w-full bg-[url('/wavy-grid.svg')] bg-cover bg-center bg-repeat-x opacity-20 -z-10"></div>
-      <div className="container grid md:grid-cols-2 gap-8 items-center">
+      <div className="container grid md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div
           className={`text-center md:text-left transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
@@ -38,7 +38,7 @@ export function HeroSection() {
             your own courses, engage with a global community, and unlock new
             opportunities.
           </p>
-          <div className="mt-8 flex justify-center md:justify-start gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
             <Button size="lg" asChild>
               <Link href="/auth">Get Started Free</Link>
             </Button>
@@ -49,23 +49,23 @@ export function HeroSection() {
               </Link>
             </Button>
           </div>
-          <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-x-8 gap-y-4 text-sm text-muted-foreground">
+          <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-4 text-sm text-muted-foreground">
             <div className="text-center">
-              <p className="font-bold text-2xl text-foreground">10K+</p>
-              <p>Active Students</p>
+              <p className="font-bold text-xl sm:text-2xl text-foreground">10K+</p>
+              <p className="text-xs sm:text-sm">Active Students</p>
             </div>
             <div className="text-center">
-              <p className="font-bold text-2xl text-foreground">500+</p>
-              <p>Expert Instructors</p>
+              <p className="font-bold text-xl sm:text-2xl text-foreground">500+</p>
+              <p className="text-xs sm:text-sm">Expert Instructors</p>
             </div>
             <div className="text-center">
-              <p className="font-bold text-2xl text-foreground">100%</p>
-              <p>Success Rate</p>
+              <p className="font-bold text-xl sm:text-2xl text-foreground">100%</p>
+              <p className="text-xs sm:text-sm">Success Rate</p>
             </div>
           </div>
         </div>
         <div
-          className={`relative h-80 md:h-full transition-all duration-1000 ${
+          className={`relative h-64 md:h-[400px] mt-8 md:mt-0 transition-all duration-1000 ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
           }`}
         >
@@ -80,11 +80,11 @@ export function HeroSection() {
               data-ai-hint={heroImage.imageHint}
             />
           )}
-          <div className="absolute -bottom-4 -left-4 bg-background/80 backdrop-blur-sm p-3 rounded-xl shadow-lg border text-sm">
+          <div className="absolute -bottom-4 -left-4 bg-background/80 backdrop-blur-sm p-2 sm:p-3 rounded-xl shadow-lg border text-xs sm:text-sm">
             <p className="font-bold text-sky-500">24/7</p>
             <p className="text-muted-foreground">Live Support</p>
           </div>
-          <div className="absolute -top-4 -right-4 bg-background/80 backdrop-blur-sm p-3 rounded-xl shadow-lg border text-sm">
+          <div className="absolute -top-4 -right-4 bg-background/80 backdrop-blur-sm p-2 sm:p-3 rounded-xl shadow-lg border text-xs sm:text-sm">
             <p className="font-bold text-primary">A+</p>
             <p className="text-muted-foreground">Grade Material</p>
           </div>

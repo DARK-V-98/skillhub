@@ -67,12 +67,12 @@ export default function LiveSessionsPage() {
     <div className="container py-12 animate-fade-in">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="animate-fade-in-up">
-          <h1 className="text-4xl font-bold tracking-tight">Live Sessions</h1>
-          <p className="mt-2 text-lg text-muted-foreground">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Live Sessions</h1>
+          <p className="mt-2 text-md md:text-lg text-muted-foreground">
             Join interactive learning experiences with expert instructors.
           </p>
         </div>
-        <Button className="animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+        <Button className="animate-fade-in-up w-full sm:w-auto" style={{animationDelay: '0.2s'}}>
           <Plus className="mr-2 h-4 w-4" />
           Host a Session
         </Button>
@@ -105,7 +105,7 @@ export default function LiveSessionsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sessions.map((session, index) => (
-          <div key={index} className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.4}s`}}>
+          <div key={session.title} className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.4}s`}}>
           <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
             <CardHeader className="p-0">
               <div className="relative h-48 w-full">

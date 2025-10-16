@@ -3,6 +3,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { AppUser } from "@/lib/types";
 import { DollarSign, Users, TrendingUp } from "lucide-react";
+import { Progress } from "../ui/progress";
 
 interface SponsorDashboardProps {
   user: AppUser;
@@ -55,32 +56,39 @@ export default function SponsorDashboard({ user }: SponsorDashboardProps) {
       <section>
         <h2 className="text-2xl font-bold mb-4">Sponsored Student Progress</h2>
         <Card>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Student</TableHead>
-                <TableHead>Course</TableHead>
-                <TableHead>Progress</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sponsoredStudents.map((student) => (
-                <TableRow key={student.id}>
-                  <TableCell className="font-medium">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src={student.avatar} alt={student.name} />
-                        <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      {student.name}
-                    </div>
-                  </TableCell>
-                  <TableCell>{student.course}</TableCell>
-                  <TableCell>{student.progress}%</TableCell>
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Student</TableHead>
+                  <TableHead className="hidden sm:table-cell">Course</TableHead>
+                  <TableHead>Progress</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {sponsoredStudents.map((student) => (
+                  <TableRow key={student.id}>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={student.avatar} alt={student.name} />
+                          <AvatarFallback>{student.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        {student.name}
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">{student.course}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Progress value={student.progress} className="w-24" />
+                        <span>{student.progress}%</span>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </Card>
       </section>
     </div>

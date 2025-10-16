@@ -17,12 +17,12 @@ export default function CommunityPage() {
     <div className="container py-12">
       <div className="mb-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-4xl font-bold tracking-tight">Community Forum</h1>
-          <p className="mt-2 text-lg text-muted-foreground">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">Community Forum</h1>
+          <p className="mt-2 text-md md:text-lg text-muted-foreground">
             Ask questions, share knowledge, and connect with fellow learners.
           </p>
         </div>
-        <Button>
+        <Button className="w-full sm:w-auto">
           <Plus className="mr-2 h-4 w-4" />
           Start a New Thread
         </Button>
@@ -44,10 +44,11 @@ export default function CommunityPage() {
       </div>
 
       <div className="overflow-hidden rounded-lg border">
+        <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Thread</TableHead>
+              <TableHead className="min-w-[250px]">Thread</TableHead>
               <TableHead className="hidden sm:table-cell">Tag</TableHead>
               <TableHead className="text-center">Replies</TableHead>
               <TableHead className="text-center">Votes</TableHead>
@@ -77,6 +78,7 @@ export default function CommunityPage() {
             ))}
           </TableBody>
         </Table>
+        </div>
       </div>
     </div>
   );

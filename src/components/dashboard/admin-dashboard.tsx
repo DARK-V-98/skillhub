@@ -21,7 +21,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   return (
     <div className="space-y-8">
       <section>
-        <div className="grid gap-4 md:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Users</CardTitle>
@@ -63,20 +63,21 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
       <section>
         <Tabs defaultValue="users">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
              <TabsList>
-                <TabsTrigger value="users">User Management</TabsTrigger>
-                <TabsTrigger value="courses">Course Management</TabsTrigger>
+                <TabsTrigger value="users">Users</TabsTrigger>
+                <TabsTrigger value="courses">Courses</TabsTrigger>
              </TabsList>
-             <Button><UserPlus className="mr-2 h-4 w-4" /> Add User</Button>
+             <Button className="w-full sm:w-auto"><UserPlus className="mr-2 h-4 w-4" /> Add User</Button>
           </div>
           <TabsContent value="users">
             <Card>
+                <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Name</TableHead>
-                    <TableHead>Email</TableHead>
+                    <TableHead className="hidden md:table-cell">Email</TableHead>
                     <TableHead>Role</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -85,7 +86,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                   {allUsers.map((u) => (
                     <TableRow key={u.id}>
                       <TableCell className="font-medium">{u.name}</TableCell>
-                      <TableCell>{u.email}</TableCell>
+                      <TableCell className="hidden md:table-cell">{u.email}</TableCell>
                       <TableCell>
                         <Badge variant={u.role === 'admin' ? 'destructive' : 'secondary'}>{u.role}</Badge>
                       </TableCell>
@@ -96,6 +97,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                   ))}
                 </TableBody>
               </Table>
+              </div>
             </Card>
           </TabsContent>
           <TabsContent value="courses">
