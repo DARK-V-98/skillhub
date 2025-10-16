@@ -105,8 +105,8 @@ export default function LiveSessionsPage() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {sessions.map((session, index) => (
-          <div className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.4}s`}}>
-          <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
+          <div key={index} className="animate-fade-in-up" style={{animationDelay: `${index * 0.1 + 0.4}s`}}>
+          <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 h-full flex flex-col">
             <CardHeader className="p-0">
               <div className="relative h-48 w-full">
                 <Image
