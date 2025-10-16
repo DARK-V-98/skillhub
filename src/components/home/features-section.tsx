@@ -68,28 +68,32 @@ export function FeaturesSection() {
             help you succeed, whatever your role.
           </p>
         </div>
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <div
-              key={feature.title}
-              className={`transition-all duration-700 ease-out ${
-                isVisible
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <Card className="text-left p-6 bg-secondary/30 hover:bg-secondary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                  <feature.icon className="h-6 w-6" aria-hidden="true" />
-                </div>
-                <h3 className="text-lg font-semibold">{feature.title}</h3>
-                <p className="mt-2 text-muted-foreground text-sm">
-                  {feature.description}
-                </p>
-              </Card>
-            </div>
-          ))}
+        <div
+          className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          style={{ perspective: '1000px' }}
+        >
+          {features.map((feature, index) => {
+            const animationClass = isVisible
+              ? index % 3 === 0
+                ? 'animate-swing-in-left'
+                : index % 3 === 1
+                ? 'animate-swing-in-down'
+                : 'animate-swing-in-right'
+              : 'opacity-0';
+            return (
+              <div key={feature.title} className={animationClass}>
+                <Card className="text-left p-6 bg-secondary/30 hover:bg-secondary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                    <feature.icon className="h-6 w-6" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-semibold">{feature.title}</h3>
+                  <p className="mt-2 text-muted-foreground text-sm">
+                    {feature.description}
+                  </p>
+                </Card>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
