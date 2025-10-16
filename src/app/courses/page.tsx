@@ -94,8 +94,8 @@ export default function CoursesPage() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {courses.map((course, index) => (
-              <div className="animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
-                <CourseCard key={course.id} course={course} />
+              <div key={course.id} className="animate-fade-in-up" style={{animationDelay: `${index * 0.1}s`}}>
+                <CourseCard course={course} />
               </div>
           ))}
         </div>
