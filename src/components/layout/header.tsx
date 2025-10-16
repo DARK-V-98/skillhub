@@ -3,12 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { GraduationCap, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import UserNav from "../auth/user-nav";
-import { useAuth } from "@/hooks/use-auth";
 import Image from "next/image";
+import { useAuth } from "../providers/auth-provider";
 
 const navLinks = [
   { href: "/courses", label: "Courses" },
@@ -42,7 +42,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
-           {loading ? null : user ? <UserNav /> : (
+           {loading ? <Skeleton className="h-8 w-8 rounded-full" /> : user ? <UserNav /> : (
             <nav className="hidden items-center space-x-2 md:flex">
               <Button variant="ghost" asChild>
                 <Link href="/auth">Sign in</Link>
@@ -62,8 +62,7 @@ export default function Header() {
             <SheetContent side="left">
               <div className="flex flex-col space-y-4">
                 <Link href="/" className="mr-6 flex items-center space-x-2">
-                  <GraduationCap className="h-6 w-6 text-primary" />
-                  <span className="font-bold">SkillHub</span>
+                   <Image src="/logo.png" alt="SkillHub Logo" width={100} height={25} className="h-auto" />
                 </Link>
                 <div className="flex flex-col space-y-2">
                   {navLinks.map((link) => (

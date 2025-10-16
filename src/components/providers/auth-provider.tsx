@@ -1,10 +1,11 @@
 "use client";
 
-import React, { createContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useEffect, useState, ReactNode, useContext } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, db } from "@/lib/firebase";
+import { useFirebase } from "@/firebase";
 import type { AppUser, UserProfile } from "@/lib/types";
+import { Skeleton } from "../ui/skeleton";
 
 interface AuthContextType {
   user: AppUser | null;
@@ -16,36 +17,48 @@ export const AuthContext = createContext<AuthContextType>({
     loading: true,
 });
 
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
+
+
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const { auth, firestore } = useFirebase();
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-        const userRef = doc(db, "users", firebaseUser.uid);
+        const userRef = doc(firestore, "users", firebaseUser.uid);
         const userSnap = await getDoc(userRef);
 
         if (userSnap.exists()) {
           const userProfile = userSnap.data() as UserProfile;
           setUser({ ...firebaseUser, ...userProfile });
         } else {
-          // This case is handled more explicitly on the signup form.
-          // However, for social logins, we create a default student profile.
-          console.log("Creating new user profile for social login.");
+          console.warn("User profile not found in Firestore for social login, creating default.");
           const newUserProfile: UserProfile = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
             name: firebaseUser.displayName,
             avatarUrl: firebaseUser.photoURL,
-            role: "student", // Default role
+            role: "student", // Default role for social logins
           };
-          await setDoc(userRef, newUserProfile);
-          setUser({ ...firebaseUser, ...newUserProfile });
+          try {
+            await setDoc(userRef, newUserProfile);
+            setUser({ ...firebaseUser, ...newUserProfile });
+          } catch (error) {
+            console.error("Error creating user profile for social login:", error);
+          }
         }
       } else {
         setUser(null);
@@ -54,11 +67,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [auth, firestore]);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>
-      {children}
+      {loading ? <div className="w-full h-screen p-8">
+          <div className="space-y-4">
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-32 w-full" />
+          </div>
+        </div> : children}
     </AuthContext.Provider>
   );
 };

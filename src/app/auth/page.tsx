@@ -11,22 +11,23 @@ import {
   GoogleAuthProvider,
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
-import { placeholderImages } from '@/lib/placeholder-images';
 import { Role, UserProfile } from '@/lib/types';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowLeft } from 'lucide-react';
+import { useFirebase } from '@/firebase';
+import { placeholderImages } from '@/lib/placeholder-images';
 
 export default function AuthPage() {
   const [isFlipped, setIsFlipped] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { auth, firestore } = useFirebase();
   const [isLoading, setIsLoading] = useState(false);
 
   // Login State
@@ -73,7 +74,7 @@ export default function AuthPage() {
         role: signupRole,
         avatarUrl: user.photoURL,
       };
-      await setDoc(doc(db, 'users', user.uid), newUserProfile);
+      await setDoc(doc(firestore, 'users', user.uid), newUserProfile);
       
       toast({ title: 'Account Created', description: 'Welcome to SkillHub!' });
       router.push('/dashboard');
@@ -110,7 +111,7 @@ export default function AuthPage() {
           {/* Front side: Login */}
           <div className="absolute w-full h-full" style={{ backfaceVisibility: 'hidden' }}>
             <div className="flex h-full bg-background rounded-2xl shadow-2xl overflow-hidden">
-                <div className="w-1/2 hidden md:flex flex-col justify-between p-8 bg-gradient-primary text-primary-foreground relative">
+                <div className="w-1/2 hidden md:flex flex-col justify-between p-8 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground relative">
                   <Button variant="ghost" asChild className="absolute top-4 left-4 z-10 hover:bg-white/20">
                     <Link href="/"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Home</Link>
                   </Button>
@@ -124,7 +125,7 @@ export default function AuthPage() {
                   }
                   <div className="z-10">
                     <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
-                      <Image src="/logo.png" alt="SkillHub Logo" width={120} height={30} className="h-auto w-auto" />
+                      <Image src="/logo.png" alt="SkillHub Logo" width={120} height={30} className="h-auto w-auto brightness-0 invert" />
                     </Link>
                   </div>
                   <div className="z-10">
@@ -156,7 +157,7 @@ export default function AuthPage() {
                             </div>
                             <Link href="#" className="text-sm text-primary hover:underline">Forgot password?</Link>
                         </div>
-                        <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90 transition-opacity" disabled={isLoading}>Login</Button>
+                        <Button type="submit" className="w-full" disabled={isLoading}>Login</Button>
                     </form>
                     <div className="flex items-center my-6">
                         <div className="flex-grow border-t border-muted"></div>
@@ -206,7 +207,7 @@ export default function AuthPage() {
                             </SelectContent>
                             </Select>
                         </div>
-                        <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90 transition-opacity" disabled={isLoading}>Create Account</Button>
+                        <Button type="submit" className="w-full" disabled={isLoading}>Create Account</Button>
                     </form>
                     <div className="flex items-center my-6">
                         <div className="flex-grow border-t border-muted"></div>
@@ -218,7 +219,7 @@ export default function AuthPage() {
                         Sign up with Google
                     </Button>
                 </div>
-                <div className="w-1/2 hidden md:flex flex-col justify-between p-8 bg-gradient-primary text-primary-foreground relative">
+                <div className="w-1/2 hidden md:flex flex-col justify-between p-8 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground relative">
                     <Button variant="ghost" asChild className="absolute top-4 left-4 z-10 hover:bg-white/20">
                         <Link href="/"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Home</Link>
                     </Button>
@@ -231,8 +232,8 @@ export default function AuthPage() {
                         />
                     }
                     <div className="z-10">
-                        <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
-                            <Image src="/logo.png" alt="SkillHub Logo" width={120} height={30} className="h-auto w-auto" />
+                         <Link href="/" className="flex items-center gap-2 font-bold text-2xl" aria-label="SkillHub Home">
+                           <Image src="/logo.png" alt="SkillHub Logo" width={120} height={30} className="h-auto w-auto brightness-0 invert" />
                         </Link>
                     </div>
                     <div className="z-10">
