@@ -1,4 +1,3 @@
-
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getAuth, Auth } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
@@ -20,10 +19,6 @@ if (typeof window !== "undefined") {
   app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
   auth = getAuth(app);
   db = getFirestore(app);
-} else {
-  // In a server-side context, you might not initialize these,
-  // or use the Firebase Admin SDK instead. For client-side-only
-  // Firebase, we can leave them uninitialized on the server.
 }
 
 // @ts-ignore
